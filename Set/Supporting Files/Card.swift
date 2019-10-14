@@ -8,20 +8,18 @@
 
 import Foundation
 
+let itemsInCategory = 3
+
 struct Card: Equatable {
     let shape: Int
     let shading: Int
     let color: Int
-    let count: Int
+    let numShapes: Int
 
     static func == (lhs: Card, rhs: Card) -> Bool {
-        lhs.shape == rhs.shape && lhs.shading == rhs.shading && lhs.color == rhs.color && lhs.count == rhs.count
+        lhs.shape == rhs.shape && lhs.shading == rhs.shading && lhs.color == rhs.color && lhs.numShapes == rhs.numShapes
     }
 
-}
 
-func match(cards: [Card], by closure: (Card) -> Int) -> Bool {
-    assert(cards.count == 3, "Wrong number of cards")
-    let comparisonSet = Set(cards.map(closure))
-    return comparisonSet.count == 3 || comparisonSet.count == 1
+
 }
