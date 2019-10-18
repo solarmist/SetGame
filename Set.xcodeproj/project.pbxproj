@@ -15,6 +15,7 @@
 		773C5ACD2353CE43004C4C11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 773C5ACB2353CE43004C4C11 /* LaunchScreen.storyboard */; };
 		773C5AD82353F3F3004C4C11 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AD72353F3F3004C4C11 /* Card.swift */; };
 		773C5ADA2353FC20004C4C11 /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AD92353FC20004C4C11 /* SetGame.swift */; };
+		D4D43E02CA3CE69025A5CE74 /* Pods_Set.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5DE67ECB2A04F2CD1B01EC /* Pods_Set.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		773C5AD52353CED4004C4C11 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		773C5AD72353F3F3004C4C11 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Card.swift; path = "Supporting Files/Card.swift"; sourceTree = "<group>"; };
 		773C5AD92353FC20004C4C11 /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
+		AE5DE67ECB2A04F2CD1B01EC /* Pods_Set.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Set.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4D43E02CA3CE69025A5CE74 /* Pods_Set.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +102,7 @@
 		91BBDBF65D7789C5A4671238 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AE5DE67ECB2A04F2CD1B01EC /* Pods_Set.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
