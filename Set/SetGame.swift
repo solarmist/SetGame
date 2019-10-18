@@ -11,8 +11,11 @@ import Foundation
 let cardsInSet = 3
 
 class SetGame {
-    private var cardsRemaining = [Card]()
+    var cardsInPlay = [Card]()
+    private var deck = [Card]()
     private var cardsMatched = [Card]()
+    let totalCards = 81
+    var cardsDrawn = 12
     var cardsSelected = [Card]() // Should be 0, 1, 2, or 3
     var score = 0
 
@@ -21,34 +24,104 @@ class SetGame {
             for color in 0..<itemsInCategory {
                 for shading in 0..<itemsInCategory {
                     for numShapes in 0..<itemsInCategory {
-                        cardsRemaining.append(Card(shape: shape, shading: shading, color: color, numShapes: numShapes))
+                        deck.append(Card(shape: shape, shading: shading, color: color, numShapes: numShapes))
                     }
                 }
             }
         }
-        cardsRemaining.shuffle()
-    }
-
-    func selectCard(at index: Int) {
-        if cardsSelected.count == cardsInSet {
-            if isMatch() {  // We have a match
-                for card in cardsSelected {
-                    cardsRemaining.remove(at: cardsRemaining.firstIndex(of: card)!)
-                    cardsMatched.append(card)
-                }
-                // Add to score
-            } else {  // No match
-                // Add to score
-                cardsSelected = [Card]()  // Clear currently selected
-                cardsSelected.append(cardsRemaining[index])
-            }
-        } else if let indexOf = cardsSelected.firstIndex(of: cardsRemaining[index]) {
-            cardsSelected.remove(at: indexOf)
-        } else {
-            cardsSelected.append(cardsRemaining[index])
+        deck.shuffle()
+        for _ in 0..<cardsDrawn {
+            drawCard()  // We don't need the cards back when setting up the game
         }
     }
 
+    /**
+    Returns a single card from the deck if possible
+     If cardsInSet number of cards are already selected and they select a new card check if the three cards are a match.
+
+    - Returns: A card.  nil if no cards remaining
+    */
+    @discardableResult private func drawCard() -> Card? {
+        guard deck.count >= 1 else {
+            print("No cards remaining")
+            return nil
+        }
+
+        let card = deck.popLast()!
+        cardsInPlay.append(card)
+        return card
+    }
+
+    /**
+    Adds or removes a card to the currently selected cards.
+     If cardsInSet number of cards are already selected and they select a new card check if the three cards are a match.
+
+    - Parameter numCards: The index of the cards to be drawn from the deck
+
+    - Returns: An array of cards drawn.  If there aren't enough cards returns nil
+    */
+    func drawCards(numCards: Int = cardsInSet) -> [Card]? {
+        guard numCards <= deck.count else {
+            return nil
+        }
+
+        var cards = [Card]()
+        cardsDrawn += numCards
+        for _ in 1...numCards {
+            cards.append(drawCard()!)
+        }
+        return cards
+    }
+
+    func selectCard(card: Card) {
+        guard cardsInPlay.firstIndex(of: card) >= indexOfNextCard else {
+            print("You've selected a card that has not yet been drawn.")
+            return
+        }
+    }
+
+    /**
+    Adds or removes a card to the currently selected cards.
+     If cardsInSet number of cards are already selected and they select a new card check if the three cards are a match.
+
+    - Parameter index: The index of the card selected
+    */
+    func selectCard(at index: Int) {
+        guard index < indexOfNextCard else {
+            print("You've selected a card that has not yet been drawn.")
+            return
+        }
+
+        if cardsSelected.count == cardsInSet, cardsSelected.contains(deck[index]) {
+            // The user has a set selected and chose one of the cards already selected.  Do nothing.
+            return
+        } else if cardsSelected.count == cardsInSet {
+            if isMatch() {  // We have a match
+                for card in cardsSelected {
+                    deck.remove(at: deck.firstIndex(of: card)!)
+                    cardsMatched.append(card)
+                }
+                indexOfNextCard -= cardsInSet
+                // TODO: Add to score
+            } else {  // No match
+                // TODO: Add to score
+            }
+            cardsSelected = [Card]()  // Clear currently selected
+        }
+
+        if let indexOf = cardsSelected.firstIndex(of: deck[index]) {
+            // Selected an already selected card, so unselect.
+            cardsSelected.remove(at: indexOf)
+        } else {
+            cardsSelected.append(deck[index])
+        }
+    }
+
+    /**
+    Check if that the cards selected are a match across all categories
+
+    - Returns: True if we have a match (all three different or all three the same
+    */
     private func isMatch() -> Bool {
         assert(cardsSelected.count == cardsInSet, "Wrong number of cards")
         var isMatch = true
@@ -65,12 +138,11 @@ class SetGame {
     /**
      Check if that the cards selected are a match for that category or not
 
-     - Parameter cards: A list of 3 cards to compare
-     - Parameter closure:
+     - Parameter closure: A closure that returns the category being checked
 
-     - Returns: True if we have a match (all three different or all three the same
+     - Returns: True if we have a match for a single category
      */
-    func isMatchCategory(for category: (Card) -> Int) -> Bool {
+    private func isMatchCategory(for category: (Card) -> Int) -> Bool {
         assert(cardsSelected.count == cardsInSet, "Wrong number of cards")
         let comparisonSet = Set(cardsSelected.map(category))
         return comparisonSet.count == 3 || comparisonSet.count == 1
