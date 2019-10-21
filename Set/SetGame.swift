@@ -60,8 +60,9 @@ class SetGame {
 
     - Returns: An array of cards drawn.  If there aren't enough cards returns nil
     */
-    func drawCards(numCards: Int = cardsInSet) -> [Card]? {
+    @discardableResult func drawCards(numCards: Int = cardsInSet) -> [Card]? {
         guard numCards <= deck.count else {
+            print("Too few cards remaining. Cannot draw \(numCards) out of \(deck.count)")
             return nil
         }
 
@@ -74,10 +75,11 @@ class SetGame {
     }
 
     func selectCard(card: Card) {
-        guard cardsInPlay.firstIndex(of: card) >= indexOfNextCard else {
+        guard let cardIndex = cardsInPlay.firstIndex(of: card) else {
             print("You've selected a card that has not yet been drawn.")
             return
         }
+        return selectCard(at: cardIndex)
     }
 
     /**
@@ -87,7 +89,7 @@ class SetGame {
     - Parameter index: The index of the card selected
     */
     func selectCard(at index: Int) {
-        guard index < indexOfNextCard else {
+        guard index < cardsInPlay.count else {
             print("You've selected a card that has not yet been drawn.")
             return
         }
@@ -95,13 +97,21 @@ class SetGame {
         if cardsSelected.count == cardsInSet, cardsSelected.contains(deck[index]) {
             // The user has a set selected and chose one of the cards already selected.  Do nothing.
             return
-        } else if cardsSelected.count == cardsInSet {
+        } else if cardsSelected.count == cardsInSet {  // Check for a set
             if isMatch() {  // We have a match
                 for card in cardsSelected {
                     deck.remove(at: deck.firstIndex(of: card)!)
                     cardsMatched.append(card)
                 }
-                indexOfNextCard -= cardsInSet
+                // Draw new cards to replace the matched cards
+                if deck.count > 0 {
+                    drawCards(numCards: min(cardsInSet, deck.count))
+                }
+                if deck.count == 0 && cardsInPlay.count == 0 {
+                    print("You win")
+                    return
+                }
+
                 // TODO: Add to score
             } else {  // No match
                 // TODO: Add to score
