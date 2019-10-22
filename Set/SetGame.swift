@@ -23,7 +23,7 @@ class SetGame {
         for shape in 0..<itemsInCategory {
             for color in 0..<itemsInCategory {
                 for shading in 0..<itemsInCategory {
-                    for numShapes in 0..<itemsInCategory {
+                    for numShapes in 1...itemsInCategory {
                         deck.append(Card(shape: shape, shading: shading, color: color, numShapes: numShapes))
                     }
                 }
