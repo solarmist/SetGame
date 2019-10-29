@@ -12,7 +12,19 @@ let cardsInSet = 3
 
 class SetGame {
     var cardsInPlay = [Card]()
-    private var deck = [Card]()
+    private var deck: [Card] = {
+        var tempDeck = [Card]()
+        for shape in 0..<itemsInCategory {
+            for color in 0..<itemsInCategory {
+                for shading in 0..<itemsInCategory {
+                    for numShapes in 1...itemsInCategory {
+                        tempDeck.append(Card(shape: shape, shading: shading, color: color, numShapes: numShapes))
+                    }
+                }
+            }
+        }
+        return tempDeck
+    }()
     private var cardsMatched = [Card]()
     let totalCards = 81
     var cardsDrawn = 12
@@ -20,18 +32,10 @@ class SetGame {
     var score = 0
 
     init() {
-        for shape in 0..<itemsInCategory {
-            for color in 0..<itemsInCategory {
-                for shading in 0..<itemsInCategory {
-                    for numShapes in 1...itemsInCategory {
-                        deck.append(Card(shape: shape, shading: shading, color: color, numShapes: numShapes))
-                    }
-                }
-            }
-        }
         deck.shuffle()
         for _ in 0..<cardsDrawn {
-            drawCard()  // We don't need the cards back when setting up the game
+            let card = drawCard()!  // We don't need the cards back when setting up the game
+            cardsInPlay.append(card)
         }
     }
 
@@ -47,9 +51,7 @@ class SetGame {
             return nil
         }
 
-        let card = deck.popLast()!
-        cardsInPlay.append(card)
-        return card
+        return deck.popLast()!
     }
 
     /**
@@ -60,10 +62,10 @@ class SetGame {
 
     - Returns: An array of cards drawn.  If there aren't enough cards returns nil
     */
-    @discardableResult func drawCards(numCards: Int = cardsInSet) -> [Card]? {
-        guard numCards <= deck.count else {
+    @discardableResult func drawCards(numCards: Int = cardsInSet) -> [Card] {
+        guard numCards <= deck.count, numCards != 0 else {
             print("Too few cards remaining. Cannot draw \(numCards) out of \(deck.count)")
-            return nil
+            return []
         }
 
         var cards = [Card]()
@@ -74,10 +76,10 @@ class SetGame {
         return cards
     }
 
-    func selectCard(card: Card) {
+    func selectCard(card: Card) -> Bool {
         guard let cardIndex = cardsInPlay.firstIndex(of: card) else {
             print("You've selected a card that has not yet been drawn.")
-            return
+            return false
         }
         return selectCard(at: cardIndex)
     }
@@ -87,44 +89,62 @@ class SetGame {
      If cardsInSet number of cards are already selected and they select a new card check if the three cards are a match.
 
     - Parameter index: The index of the card selected
+
+    - Returns: true if a card was sucessfully selected, false otherwise
     */
-    func selectCard(at index: Int) {
+    func selectCard(at index: Int) -> Bool {
         guard index < cardsInPlay.count else {
             print("You've selected a card that has not yet been drawn.")
-            return
+            return false
         }
 
-        if cardsSelected.count == cardsInSet, cardsSelected.contains(deck[index]) {
+        if cardsSelected.count == cardsInSet, cardsSelected.contains(cardsInPlay[index]) {
             // The user has a set selected and chose one of the cards already selected.  Do nothing.
-            return
+            return false
         } else if cardsSelected.count == cardsInSet {  // Check for a set
             if isMatch() {  // We have a match
+                print("Found a match")
+                // Draw new cards to replace the ones just matched
+                var newCards = drawCards(numCards: min(cardsInSet, deck.count))
                 for card in cardsSelected {
-                    deck.remove(at: deck.firstIndex(of: card)!)
+                    let index = cardsInPlay.firstIndex(of: card)!
+                    print("\(index)")
+                    if let newCard = newCards.popLast() {
+                        print("Replace card")
+                        cardsInPlay[index] = newCard
+                    } else {
+                        print("Remove card")
+                        cardsInPlay.remove(at: index)
+                    }
                     cardsMatched.append(card)
                 }
-                // Draw new cards to replace the matched cards
-                if deck.count > 0 {
-                    drawCards(numCards: min(cardsInSet, deck.count))
-                }
-                if deck.count == 0 && cardsInPlay.count == 0 {
+                if deck.count == 0, cardsInPlay.count == 0 {
                     print("You win")
-                    return
+                    score += 100
+                    return false
                 }
-
+                score += 10
                 // TODO: Add to score
             } else {  // No match
+                print("No match")
+                score -= 1
                 // TODO: Add to score
+                for card in cardsSelected {
+                    print("Card: \(card)")
+                }
             }
             cardsSelected = [Card]()  // Clear currently selected
+            return false
         }
 
-        if let indexOf = cardsSelected.firstIndex(of: deck[index]) {
+        if let indexOf = cardsSelected.firstIndex(of: cardsInPlay[index]) {
             // Selected an already selected card, so unselect.
             cardsSelected.remove(at: indexOf)
         } else {
-            cardsSelected.append(deck[index])
+            cardsSelected.append(cardsInPlay[index])
         }
+        print("Selected card")
+        return true
     }
 
     /**
@@ -135,12 +155,14 @@ class SetGame {
     private func isMatch() -> Bool {
         assert(cardsSelected.count == cardsInSet, "Wrong number of cards")
         var isMatch = true
-        let categories: [(Card) -> Int] = [{$0.shape},
-                                           {$0.shading},
-                                           {$0.color},
-                                           {$0.numShapes}]
-        for category in categories {
-            isMatch = isMatch && isMatchCategory(for:category)
+        let categories: [(String, (Card) -> Int)] = [("Shape", {$0.shape}),
+                                                     ("Shading", {$0.shading}),
+                                                     ("Color", {$0.color}),
+                                                     ("Number of shapes", {$0.numShapes})]
+        for (catName, category) in categories {
+            let catMatch = isMatchCategory(for:category)
+            print("\(catName) is a match: \(catMatch)")
+            isMatch = isMatch && catMatch
         }
         return isMatch
     }
@@ -153,7 +175,10 @@ class SetGame {
      - Returns: True if we have a match for a single category
      */
     private func isMatchCategory(for category: (Card) -> Int) -> Bool {
-        assert(cardsSelected.count == cardsInSet, "Wrong number of cards")
+        guard cardsSelected.count == cardsInSet else {
+            print("Wrong number of cards selected.")
+            return false
+        }
         let comparisonSet = Set(cardsSelected.map(category))
         return comparisonSet.count == 3 || comparisonSet.count == 1
     }

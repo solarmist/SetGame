@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,218 +13,301 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Set" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="kwB-rW-yNe" userLabel="Play Area">
-                                <rect key="frame" x="20" y="54" width="374" height="312"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="kwB-rW-yNe" userLabel="Play Area">
+                                <rect key="frame" x="20" y="54" width="335" height="322"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="5Dd-lY-geL">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="72"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="5Dd-lY-geL">
+                                        <rect key="frame" x="0.0" y="0.0" width="77.666666666666671" height="322"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rVt-Rm-kHe">
-                                                <rect key="frame" x="0.0" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gbT-TL-YWc"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gbT-TL-YWc"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rHV-UP-T0N">
-                                                <rect key="frame" x="95.5" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="55" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WPP-0y-odL"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WPP-0y-odL"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qFo-80-DEA">
-                                                <rect key="frame" x="191" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="110" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Swo-q0-gXo"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Swo-q0-gXo"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BCv-vx-59P">
-                                                <rect key="frame" x="286.5" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="165" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OJW-Zg-exa"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OJW-Zg-exa"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z7r-VS-anu">
+                                                <rect key="frame" x="0.0" y="220" width="77.666666666666671" height="47"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
+                                                <connections>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R88-sU-K9a"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scZ-tj-yib">
+                                                <rect key="frame" x="0.0" y="275" width="77.666666666666671" height="47"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
+                                                <connections>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9om-PX-Qka"/>
                                                 </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="U5f-Hz-UgI">
-                                        <rect key="frame" x="0.0" y="80" width="374" height="72"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="U5f-Hz-UgI">
+                                        <rect key="frame" x="85.666666666666671" y="0.0" width="78.000000000000014" height="322"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kPp-2Q-5tx">
-                                                <rect key="frame" x="0.0" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="78" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jKG-5Q-aef"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jKG-5Q-aef"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fOU-gV-GKl">
-                                                <rect key="frame" x="95.5" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="55" width="78" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jHw-0g-eha"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jHw-0g-eha"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oUk-VH-URR">
-                                                <rect key="frame" x="191" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="110" width="78" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4kS-pV-NQq"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4kS-pV-NQq"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GiX-ct-R2G">
-                                                <rect key="frame" x="286.5" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="165" width="78" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EUE-cn-By2"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EUE-cn-By2"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nr9-0T-KWl">
+                                                <rect key="frame" x="0.0" y="220" width="78" height="47"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
+                                                <connections>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uvU-PG-4xW"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FH8-wi-ZoR">
+                                                <rect key="frame" x="0.0" y="275" width="78" height="47"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
+                                                <connections>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Qbg-7U-ncO"/>
                                                 </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tvL-Ay-5OT">
-                                        <rect key="frame" x="0.0" y="160" width="374" height="72"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tvL-Ay-5OT">
+                                        <rect key="frame" x="171.66666666666666" y="0.0" width="77.666666666666657" height="322"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jAD-oV-oZd">
-                                                <rect key="frame" x="0.0" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GNo-QK-g38"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GNo-QK-g38"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEv-gY-5Du">
-                                                <rect key="frame" x="95.5" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="55" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gUE-r8-qZa"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gUE-r8-qZa"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tav-ue-UyR">
-                                                <rect key="frame" x="191" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="110" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hms-jc-ip6"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hms-jc-ip6"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2GX-FB-FQa">
-                                                <rect key="frame" x="286.5" y="0.0" width="87.5" height="72"/>
+                                                <rect key="frame" x="0.0" y="165" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zjG-ID-9Fc"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zjG-ID-9Fc"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k7u-Cc-FiN">
+                                                <rect key="frame" x="0.0" y="220" width="77.666666666666671" height="47"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
+                                                <connections>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5S8-0X-d3a"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-az-nRp">
+                                                <rect key="frame" x="0.0" y="275" width="77.666666666666671" height="47"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
+                                                <connections>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KAr-cI-4P5"/>
                                                 </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vMu-jR-4II">
-                                        <rect key="frame" x="0.0" y="240" width="374" height="72"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vMu-jR-4II">
+                                        <rect key="frame" x="257.33333333333331" y="0.0" width="77.666666666666686" height="322"/>
                                         <subviews>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4v-D1-QXS">
-                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="72"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4v-D1-QXS">
+                                                <rect key="frame" x="0.0" y="0.0" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oMf-kn-HhX"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oMf-kn-HhX"/>
                                                 </connections>
                                             </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6dA-Vc-wbo">
-                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="72"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6dA-Vc-wbo">
+                                                <rect key="frame" x="0.0" y="55" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4C3-C2-9aS"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4C3-C2-9aS"/>
                                                 </connections>
                                             </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w0q-7A-9on">
-                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="72"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w0q-7A-9on">
+                                                <rect key="frame" x="0.0" y="110" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DgY-k6-Rx3"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DgY-k6-Rx3"/>
                                                 </connections>
                                             </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hhe-t2-EYc">
-                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="72"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hhe-t2-EYc">
+                                                <rect key="frame" x="0.0" y="165" width="77.666666666666671" height="47"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                                <state key="normal" title="▲"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
                                                 <connections>
-                                                    <action selector="selectCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rpN-xQ-j2q"/>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rpN-xQ-j2q"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hQC-Wq-H2P">
+                                                <rect key="frame" x="0.0" y="220" width="77.666666666666671" height="47"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
+                                                <connections>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dx9-lT-Cqs"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Sd-GC-iK4">
+                                                <rect key="frame" x="0.0" y="275" width="77.666666666666671" height="47"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
+                                                <state key="normal" title="▲▲▲"/>
+                                                <connections>
+                                                    <action selector="touchCard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EEr-s0-q5q"/>
                                                 </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="z75-fY-8VE" userLabel="Score Box">
-                                <rect key="frame" x="20" y="802" width="374" height="60"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="z75-fY-8VE" userLabel="Score Box">
+                                <rect key="frame" x="20" y="735" width="335" height="43"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mvC-1r-6HJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="60"/>
-                                        <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="FZc-oA-eah"/>
-                                        </constraints>
+                                    <button opaque="NO" contentMode="left" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mvC-1r-6HJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="86.333333333333329" height="43"/>
+                                        <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="New Game">
                                             <color key="titleColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="touchNewGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DGw-Fc-Tgw"/>
+                                        </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vPf-Ud-eH5">
-                                        <rect key="frame" x="146.5" y="0.0" width="150" height="60"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Score:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vPf-Ud-eH5">
+                                        <rect key="frame" x="94.333333333333314" y="0.0" width="98.666666666666686" height="43"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKj-kK-WLh">
+                                        <rect key="frame" x="201" y="0.0" width="66" height="43"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="left" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k8W-7W-ILB">
+                                        <rect key="frame" x="275" y="0.0" width="60" height="43"/>
+                                        <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="150" id="VZA-6K-CEE"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="gVC-BR-LNQ"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKj-kK-WLh">
-                                        <rect key="frame" x="343" y="0.0" width="31" height="60"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Deal">
+                                            <color key="titleColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="touchDealCards:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KcZ-CC-Vil"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You Win" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yws-AK-XMI">
-                                <rect key="frame" x="120" y="418" width="174.5" height="60"/>
-                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="100.33333333333331" y="376" width="174.33333333333337" height="60"/>
+                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemGrayColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="kwB-rW-yNe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="980-WJ-Epc"/>
                             <constraint firstItem="Yws-AK-XMI" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="BGI-cV-KkO"/>
@@ -239,29 +322,39 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="dealButton" destination="k8W-7W-ILB" id="W9z-ss-qPS"/>
                         <outlet property="newGameButton" destination="mvC-1r-6HJ" id="iN7-1O-qtm"/>
+                        <outlet property="scoreLabel" destination="bKj-kK-WLh" id="sQN-uK-VwK"/>
                         <outlet property="winLabel" destination="Yws-AK-XMI" id="lWq-Wc-dVr"/>
-                        <outletCollection property="cardButtons" destination="rHV-UP-T0N" collectionClass="NSMutableArray" id="ovA-97-HaW"/>
-                        <outletCollection property="cardButtons" destination="BCv-vx-59P" collectionClass="NSMutableArray" id="704-dg-BS3"/>
-                        <outletCollection property="cardButtons" destination="qFo-80-DEA" collectionClass="NSMutableArray" id="obc-vB-aqf"/>
-                        <outletCollection property="cardButtons" destination="rVt-Rm-kHe" collectionClass="NSMutableArray" id="trn-CP-eVE"/>
-                        <outletCollection property="cardButtons" destination="GiX-ct-R2G" collectionClass="NSMutableArray" id="9LP-ls-ZXT"/>
-                        <outletCollection property="cardButtons" destination="fOU-gV-GKl" collectionClass="NSMutableArray" id="MpC-Vc-5xe"/>
-                        <outletCollection property="cardButtons" destination="oUk-VH-URR" collectionClass="NSMutableArray" id="uML-ck-6Hw"/>
-                        <outletCollection property="cardButtons" destination="kPp-2Q-5tx" collectionClass="NSMutableArray" id="2YE-4k-kqg"/>
-                        <outletCollection property="cardButtons" destination="Tav-ue-UyR" collectionClass="NSMutableArray" id="SYx-Od-Ncq"/>
-                        <outletCollection property="cardButtons" destination="jAD-oV-oZd" collectionClass="NSMutableArray" id="hNb-Qe-TkU"/>
-                        <outletCollection property="cardButtons" destination="2GX-FB-FQa" collectionClass="NSMutableArray" id="guN-Gw-fF3"/>
-                        <outletCollection property="cardButtons" destination="KEv-gY-5Du" collectionClass="NSMutableArray" id="4CZ-5e-9vj"/>
-                        <outletCollection property="cardButtons" destination="D4v-D1-QXS" collectionClass="NSMutableArray" id="oOY-od-Thd"/>
-                        <outletCollection property="cardButtons" destination="hhe-t2-EYc" collectionClass="NSMutableArray" id="jA7-cv-1rM"/>
-                        <outletCollection property="cardButtons" destination="w0q-7A-9on" collectionClass="NSMutableArray" id="Sj2-fT-mN9"/>
-                        <outletCollection property="cardButtons" destination="6dA-Vc-wbo" collectionClass="NSMutableArray" id="EVF-7c-Gep"/>
+                        <outletCollection property="cardButtons" destination="rVt-Rm-kHe" collectionClass="NSMutableArray" id="IZw-B4-daa"/>
+                        <outletCollection property="cardButtons" destination="rHV-UP-T0N" collectionClass="NSMutableArray" id="gIn-wn-LcN"/>
+                        <outletCollection property="cardButtons" destination="qFo-80-DEA" collectionClass="NSMutableArray" id="d6b-9d-tau"/>
+                        <outletCollection property="cardButtons" destination="BCv-vx-59P" collectionClass="NSMutableArray" id="x6g-nK-1CJ"/>
+                        <outletCollection property="cardButtons" destination="Z7r-VS-anu" collectionClass="NSMutableArray" id="UJi-Fv-rcw"/>
+                        <outletCollection property="cardButtons" destination="scZ-tj-yib" collectionClass="NSMutableArray" id="4HI-V8-RHR"/>
+                        <outletCollection property="cardButtons" destination="kPp-2Q-5tx" collectionClass="NSMutableArray" id="NyO-1u-9jt"/>
+                        <outletCollection property="cardButtons" destination="fOU-gV-GKl" collectionClass="NSMutableArray" id="yGi-lt-uOg"/>
+                        <outletCollection property="cardButtons" destination="oUk-VH-URR" collectionClass="NSMutableArray" id="rx6-nz-dtj"/>
+                        <outletCollection property="cardButtons" destination="GiX-ct-R2G" collectionClass="NSMutableArray" id="DE9-ca-ZOm"/>
+                        <outletCollection property="cardButtons" destination="Nr9-0T-KWl" collectionClass="NSMutableArray" id="RXe-mh-7Bi"/>
+                        <outletCollection property="cardButtons" destination="FH8-wi-ZoR" collectionClass="NSMutableArray" id="QrC-gl-pmc"/>
+                        <outletCollection property="cardButtons" destination="jAD-oV-oZd" collectionClass="NSMutableArray" id="B1i-Lq-3Se"/>
+                        <outletCollection property="cardButtons" destination="KEv-gY-5Du" collectionClass="NSMutableArray" id="kI6-4w-ksl"/>
+                        <outletCollection property="cardButtons" destination="Tav-ue-UyR" collectionClass="NSMutableArray" id="qZc-R3-AXl"/>
+                        <outletCollection property="cardButtons" destination="2GX-FB-FQa" collectionClass="NSMutableArray" id="1VW-hr-OWc"/>
+                        <outletCollection property="cardButtons" destination="k7u-Cc-FiN" collectionClass="NSMutableArray" id="nbx-RQ-bsf"/>
+                        <outletCollection property="cardButtons" destination="9h5-az-nRp" collectionClass="NSMutableArray" id="iLI-0c-EW4"/>
+                        <outletCollection property="cardButtons" destination="D4v-D1-QXS" collectionClass="NSMutableArray" id="gXc-7F-Rs5"/>
+                        <outletCollection property="cardButtons" destination="6dA-Vc-wbo" collectionClass="NSMutableArray" id="w1D-Lr-ToZ"/>
+                        <outletCollection property="cardButtons" destination="w0q-7A-9on" collectionClass="NSMutableArray" id="wRF-GV-yyT"/>
+                        <outletCollection property="cardButtons" destination="hhe-t2-EYc" collectionClass="NSMutableArray" id="lHo-tj-WUv"/>
+                        <outletCollection property="cardButtons" destination="hQC-Wq-H2P" collectionClass="NSMutableArray" id="86A-gN-Sm1"/>
+                        <outletCollection property="cardButtons" destination="6Sd-GC-iK4" collectionClass="NSMutableArray" id="aJs-oJ-emn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.23188405797103" y="137.27678571428569"/>
+            <point key="canvasLocation" x="537" y="-377"/>
         </scene>
     </scenes>
 </document>

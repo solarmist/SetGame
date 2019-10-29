@@ -10,7 +10,13 @@ import Foundation
 
 let itemsInCategory = 3
 
-struct Card: Equatable {
+struct Card: Equatable, CustomStringConvertible {
+    var description: String {
+        get {
+            "Shape: \(shape), Shading: \(shading), Color: \(color), numShapes: \(numShapes)"
+        }
+    }
+
     let shape: Int
     let shading: Int
     let color: Int
