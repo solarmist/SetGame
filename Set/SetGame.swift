@@ -30,6 +30,16 @@ class SetGame {
     var cardsDrawn = 12
     var cardsSelected = [Card]() // Should be 0, 1, 2, or 3
     var score = 0
+    var gameOver: Bool {
+        get {
+            deck.count == 0 && cardsInPlay.count == 0
+        }
+    }
+    var isMatch : Bool {
+        get {
+            cardsSelected.count == cardsInSet && checkIsMatch()
+        }
+    }
 
     init() {
         deck.shuffle()
@@ -97,62 +107,63 @@ class SetGame {
             print("You've selected a card that has not yet been drawn.")
             return false
         }
-
-        if cardsSelected.count == cardsInSet, cardsSelected.contains(cardsInPlay[index]) {
-            // The user has a set selected and chose one of the cards already selected.  Do nothing.
-            return false
-        } else if cardsSelected.count == cardsInSet {  // Check for a set
-            if isMatch() {  // We have a match
+        var selctedCard = false
+        if cardsSelected.count == cardsInSet {
+            if isMatch {  // Don't clear things until the next pass
                 print("Found a match")
-                // Draw new cards to replace the ones just matched
-                var newCards = drawCards(numCards: min(cardsInSet, deck.count))
-                for card in cardsSelected {
-                    let index = cardsInPlay.firstIndex(of: card)!
-                    print("\(index)")
-                    if let newCard = newCards.popLast() {
-                        print("Replace card")
-                        cardsInPlay[index] = newCard
-                    } else {
-                        print("Remove card")
-                        cardsInPlay.remove(at: index)
-                    }
-                    cardsMatched.append(card)
-                }
-                if deck.count == 0, cardsInPlay.count == 0 {
-                    print("You win")
-                    score += 100
-                    return false
-                }
+                processMatch()
                 score += 10
-                // TODO: Add to score
-            } else {  // No match
-                print("No match")
+            } else {
                 score -= 1
-                // TODO: Add to score
-                for card in cardsSelected {
-                    print("Card: \(card)")
-                }
+                print("No match")
+
             }
+            // The user has a set selected and chose one of the cards already selected and have a full set selected.  Do nothing.
             cardsSelected = [Card]()  // Clear currently selected
-            return false
+        }
+        if index >= cardsInPlay.count{
+            return false  // Near the end of the game and tried to select a button that was removed
         }
 
-        if let indexOf = cardsSelected.firstIndex(of: cardsInPlay[index]) {
+        if gameOver {
+            print("You win")
+            score += 100
+            selctedCard = false
+        } else if let indexOf = cardsSelected.firstIndex(of: cardsInPlay[index]) {
             // Selected an already selected card, so unselect.
             cardsSelected.remove(at: indexOf)
+            selctedCard = true
         } else {
             cardsSelected.append(cardsInPlay[index])
+            selctedCard = true
         }
-        print("Selected card")
-        return true
+        return selctedCard
     }
 
+
+    private func processMatch() {
+        // Draw new cards to replace the ones just matched
+        var newCards = drawCards(numCards: min(cardsInSet, deck.count))
+        for card in cardsSelected {
+            let index = cardsInPlay.firstIndex(of: card)!
+            print("Index of card: \(index)")
+            if let newCard = newCards.popLast() {
+                print("Replace card in play")
+                cardsInPlay[index] = newCard
+            } else {
+                print("Remove card from play")
+                cardsInPlay.remove(at: index)
+            }
+            cardsMatched.append(card)
+        }
+        // TODO: Add to score
+    }
     /**
     Check if that the cards selected are a match across all categories
 
     - Returns: True if we have a match (all three different or all three the same
     */
-    private func isMatch() -> Bool {
+    private func checkIsMatch() -> Bool {
         assert(cardsSelected.count == cardsInSet, "Wrong number of cards")
         var isMatch = true
         let categories: [(String, (Card) -> Int)] = [("Shape", {$0.shape}),

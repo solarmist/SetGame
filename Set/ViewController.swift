@@ -8,25 +8,36 @@
 
 import UIKit
 
+
 // These are all UI specific
+
+//    private func updateLabel() {
+//        let attributes: [NSAttributedString.Key: Any] = [
+//            .strokeWidth: 5.0,
+//            .strokeColor: #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+//        ]
+//        let attributedString = NSAttributedString(string: scoreLabel.text!, attributes: attributes)
+//        scoreLabel.attributedText = attributedString
+//    }
+//
 enum Shape: String, CaseIterable {
     // Note: The string values are only temporary until we use drawing to represent the images
     case diamond = "▲"
     case squiggle = "■"
     case oval = "●"
 }
-
-enum Shading: Double {
-    case open = 0
-    case translucent = 0.15
-    case solid = 1
-}
-
-enum Color {
-    case color1// = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-    case color2
-    case red
-}
+//
+//enum Shading: Double {
+//    case open = 0
+//    case translucent = 0.15
+//    case solid = 1
+//}
+//
+//enum Color {
+//    case color1// = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//    case color2
+//    case red
+//}
 
 class ViewController: UIViewController {
     @IBOutlet weak var scoreLabel: UILabel!
@@ -36,6 +47,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var newGameButton: UIButton!
 
     private lazy var game = SetGame()
+    private var buttonsSelected = [UIButton]()
     private var handSize: Int {
         get {
             cardButtons.filter({!$0.isHidden}).count
@@ -55,23 +67,33 @@ class ViewController: UIViewController {
 
     @IBAction func touchCard(_ sender: UIButton) {
         let index = cardButtons.firstIndex(of: sender)!
-        let numCardsInPlay = game.cardsInPlay.count
+
+        if game.cardsSelected.count == cardsInSet {
+            print("Hand cleared: Refreshing buttons")
+            for card in buttonsSelected {
+                card.isCardSelected = false
+            }
+            buttonsSelected = []
+        }
 
         if game.selectCard(at: index) {
             print("Card at index \(index) is \(sender.isCardSelected)")
-            sender.isCardSelected = !sender.isCardSelected
-        } else if game.cardsSelected.count == 0 {
-            print("Hand cleared: Refreshing buttons")
-            for card in cardButtons {
-                card.isCardSelected = false
+            sender.isCardSelected = !sender.isCardSelected  // Toggle button
+            if !sender.isCardSelected {
+                buttonsSelected.remove(at: buttonsSelected.firstIndex(of: sender)!)
+            } else {
+                buttonsSelected.append(sender)
             }
         }
-//        if game.cardsInPlay.count < numCardsInPlay {
-//            // We're in the second half of the game so start consolidating buttons displayed.
-//            for button in cardButtons {
-//                button.isHidden = true
-//            }
-//        }
+        if game.gameOver {
+            winLabel.isHidden = false
+        }
+
+        if game.cardsSelected.count == cardsInSet {
+            for button in buttonsSelected {
+                button.layer.borderColor = game.isMatch ? UIColor.green.cgColor : UIColor.red.cgColor
+            }
+        }
         updateViewFromModel()
     }
 
@@ -89,15 +111,6 @@ class ViewController: UIViewController {
         }
         updateViewFromModel()
     }
-
-//    private func updateLabel() {
-//        let attributes: [NSAttributedString.Key: Any] = [
-//            .strokeWidth: 5.0,
-//            .strokeColor: #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
-//        ]
-//        let attributedString = NSAttributedString(string: scoreLabel.text!, attributes: attributes)
-//        scoreLabel.attributedText = attributedString
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,8 +142,6 @@ class ViewController: UIViewController {
         for (i, card) in game.cardsInPlay.enumerated() {
             cardButtons[i].setAttributedTitle(getCardString(for: card), for: UIControl.State.normal)
             cardButtons[i].isHidden = false
-
-            print(cardButtons[i].setTitle)
         }
         if game.cardsInPlay.count<cardButtons.count {
             for i in game.cardsInPlay.count..<cardButtons.count {
