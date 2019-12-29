@@ -9,12 +9,16 @@
 /* Begin PBXBuildFile section */
 		773C5AC12353CE41004C4C11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AC02353CE41004C4C11 /* AppDelegate.swift */; };
 		773C5AC32353CE41004C4C11 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AC22353CE41004C4C11 /* SceneDelegate.swift */; };
-		773C5AC52353CE41004C4C11 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AC42353CE41004C4C11 /* ViewController.swift */; };
+		773C5AC52353CE41004C4C11 /* SetGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AC42353CE41004C4C11 /* SetGameController.swift */; };
 		773C5AC82353CE41004C4C11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 773C5AC62353CE41004C4C11 /* Main.storyboard */; };
 		773C5ACA2353CE43004C4C11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 773C5AC92353CE43004C4C11 /* Assets.xcassets */; };
 		773C5ACD2353CE43004C4C11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 773C5ACB2353CE43004C4C11 /* LaunchScreen.storyboard */; };
 		773C5AD82353F3F3004C4C11 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AD72353F3F3004C4C11 /* Card.swift */; };
 		773C5ADA2353FC20004C4C11 /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AD92353FC20004C4C11 /* SetGame.swift */; };
+		7785593D237A48B600CF8D74 /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7785593C237A48B600CF8D74 /* GameBoardView.swift */; };
+		7785593F237A490100CF8D74 /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7785593E237A490100CF8D74 /* ShapeView.swift */; };
+		77855941237A7FD500CF8D74 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77855940237A7FD500CF8D74 /* Grid.swift */; };
+		77F9E3AD237FA91600F452C6 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F9E3AC237FA91600F452C6 /* CardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +27,7 @@
 		773C5ABD2353CE41004C4C11 /* Set.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Set.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		773C5AC02353CE41004C4C11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		773C5AC22353CE41004C4C11 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		773C5AC42353CE41004C4C11 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		773C5AC42353CE41004C4C11 /* SetGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameController.swift; sourceTree = "<group>"; };
 		773C5AC72353CE41004C4C11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		773C5AC92353CE43004C4C11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		773C5ACC2353CE43004C4C11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -32,6 +36,10 @@
 		773C5AD52353CED4004C4C11 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		773C5AD72353F3F3004C4C11 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Card.swift; path = "Supporting Files/Card.swift"; sourceTree = "<group>"; };
 		773C5AD92353FC20004C4C11 /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
+		7785593C237A48B600CF8D74 /* GameBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
+		7785593E237A490100CF8D74 /* ShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
+		77855940237A7FD500CF8D74 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		77F9E3AC237FA91600F452C6 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +83,11 @@
 		773C5ABF2353CE41004C4C11 /* Set */ = {
 			isa = PBXGroup;
 			children = (
-				773C5AC42353CE41004C4C11 /* ViewController.swift */,
+				77855940237A7FD500CF8D74 /* Grid.swift */,
+				7785593E237A490100CF8D74 /* ShapeView.swift */,
+				77F9E3AC237FA91600F452C6 /* CardView.swift */,
+				7785593C237A48B600CF8D74 /* GameBoardView.swift */,
+				773C5AC42353CE41004C4C11 /* SetGameController.swift */,
 				773C5AC62353CE41004C4C11 /* Main.storyboard */,
 				773C5AD72353F3F3004C4C11 /* Card.swift */,
 				773C5AD92353FC20004C4C11 /* SetGame.swift */,
@@ -202,10 +214,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				773C5ADA2353FC20004C4C11 /* SetGame.swift in Sources */,
-				773C5AC52353CE41004C4C11 /* ViewController.swift in Sources */,
+				77F9E3AD237FA91600F452C6 /* CardView.swift in Sources */,
+				773C5AC52353CE41004C4C11 /* SetGameController.swift in Sources */,
 				773C5AC12353CE41004C4C11 /* AppDelegate.swift in Sources */,
+				77855941237A7FD500CF8D74 /* Grid.swift in Sources */,
 				773C5AC32353CE41004C4C11 /* SceneDelegate.swift in Sources */,
+				7785593D237A48B600CF8D74 /* GameBoardView.swift in Sources */,
 				773C5AD82353F3F3004C4C11 /* Card.swift in Sources */,
+				7785593F237A490100CF8D74 /* ShapeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
