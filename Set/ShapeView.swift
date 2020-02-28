@@ -10,150 +10,231 @@ import UIKit
 
 @IBDesignable
 class ShapeView: UIView {
-    // Scale to 0.85 the largest without clipping by the edge of the card
-    let scale: CGFloat = 0.75
-    let ratio: CGFloat = 0.5
-    var color = UIColor.red
-    var lineWidth: CGFloat = 1.5
-    var useShorter: Bool = true  // If the shape is the whole card we want to use the shorter dimension
-    // 0 = empty
-    // 1 = striped
-    // 2 = opaque
-    var fill = 2
-    var shape = 0
+    // Variables for UI
+    // Scale to 0.85 the largest without clipping by the edge of the card.
+    // This looks cramped on the cards with 3 ovals though, so I'm using 0.75 which looks alright to me.
+    private let scale: CGFloat = 0.75
+    private let ratio: CGFloat = 0.5  // of width:height
+    private let lineWidth: CGFloat = 1.5  // 1.5x thicker than standard thickness, used for striping and shape drawing
+    private let color: UIColor
+    private let topPaddingScale: CGFloat
+    private let useShorter: Bool  // See notes in init
 
-    override func draw(_ rect: CGRect) {
-        backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        isOpaque = false
+    private var path: UIBezierPath
+    private var fill: () -> Void
 
-        let path: UIBezierPath
+    /**
+     - parameters:
+        - card: The card that is being displayed
+        - frame: The shape's drawing area
+        - topEdge: Does this shape share the top edge with the edge of the card
+        - bottomEdge: Does this shape share the bottom edge with the edge of the card
+     */
+    init(card: Card, frame: CGRect, topEdge: Bool = true) {
+        // Set these as dummy values for Phase 1
+        path = UIBezierPath()
+        fill = {}
 
-        switch shape {
-            case 0:
-                path = getSquiggle(bounds)
-            case 1:
-                path = getOval(bounds)
-            default:
-                path = getDiamond(bounds)
+        // This is used for single shapes because we're given the entire card to use.
+        // In this case the natural orientation would be to place the longest axis of
+        // the shape on the longest axis of the frame which wouldn't match any of the other cards.
+        useShorter = card.numShapes == 1 ? true : false
+
+        // The padding of a shape on a card will one of (top, bottom):
+        // (1/2, 1/2) single shape or (1/3, 1/3) internal shape
+        // (2/3, 1/3) top shape or (1/3, 2/3) bottom shape
+        if card.numShapes == 1 {
+            topPaddingScale = 1 / 2
+        } else {
+            topPaddingScale = topEdge ? 2/3 : 1/3
+        }
+        color = getColor(from: card)
+
+        super.init(frame: frame)
+
+        isOpaque = true
+        backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) // Set this to clear so we can see the card frame from the CardView
+
+        switch card.shape {
+            case 0: path = getSquiggle()
+            case 1: path = getOval()
+            default: path = getDiamond()
         }
         path.lineWidth = lineWidth
 
-        color.setStroke()
+        // The background inside the shape
+        switch card.shading {
+            case 0: fill = {self.color.setFill(); self.path.fill()}
+            case 1: fill = drawStripes
+            default: fill = {}  // Do nothing
+        }
+    }
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented"); }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()  // Runs autolayout stuff
+        // Re-scale and place the shape when the cards move
         scaleAndPlace(path)
+    }
+
+    override func draw(_ rect: CGRect) {
         path.addClip()
-
-        switch fill {
-            case 0:
-                color.setFill()
-            case 1:
-                drawStripes(path.bounds)
-                fallthrough
-            default:
-                UIColor.clear.setFill()
-        }
-
-        path.fill()
+        color.setStroke()
         path.stroke()
+        fill()
     }
 
-    func drawStripes(_ rect: CGRect) {
-        let thickness: CGFloat = lineWidth // desired thickness of lines
-        let gap: CGFloat = lineWidth * 1.5  // desired gap between lines
+    /**
+     Draws closely spaced lines as an alternative fill compared to solid and empty
 
-        guard let c = UIGraphicsGetCurrentContext() else { return }
-        c.setStrokeColor(color.cgColor)
-        c.setLineWidth(thickness)
+     - parameter rect: The area to fill with stripes
 
-        var p = gap / 2 + rect.minX
-        while p <= rect.minX + rect.size.width {
-            let start = CGPoint(x: p, y: rect.minY)
-            let end = CGPoint(x: p, y: rect.maxY)
-            c.move(to: start)
-            c.addLine(to: end)
-            c.strokePath()
-            p += gap + thickness
+     - note:
+        The line thickness and spacing is controlled by `lineWidth` and the space size is 1.5 times `lineWidth`.
+        The objects' `color` is used for the color.
+
+     */
+    func drawStripes() {
+        let stripeGap: CGFloat = path.lineWidth * 1.5  // desired gap between lines
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+
+        UIColor.white.setFill()
+        context.setStrokeColor(color.cgColor)
+        context.setLineWidth(path.lineWidth)
+
+        var padding = stripeGap / 2 + bounds.minX
+        while padding <= bounds.minX + bounds.size.width {
+            let start = CGPoint(x: padding, y: bounds.minY)
+            let end = CGPoint(x: padding, y: bounds.maxY)
+            context.move(to: start)
+            context.addLine(to: end)
+            context.strokePath()
+            padding += stripeGap + path.lineWidth
         }
     }
 
-    func scaleAndPlace(_ path: UIBezierPath) {
-        // Now scale and translate the squiggle
-        let scale: CGFloat = self.scale * (useShorter ? min(bounds.width, bounds.height) : max(bounds.width, bounds.height))
-        path.apply(CGAffineTransform(scaleX: scale / max(path.bounds.width, path.bounds.height),
-                                     y: scale / max(path.bounds.width, path.bounds.height)))
+    /**
+     Modifies the `path` object by positioning and resizing it with in the `bounds` of the object.
+
+     - Parmeter path: The BezierPath to modify
+
+     - Note: Uses `useShorter` to determine which axis to align with.
+     */
+    @discardableResult func scaleAndPlace(_ path: UIBezierPath) -> UIBezierPath {
+        let minMax: (CGFloat, CGFloat) -> CGFloat = useShorter ? min : max
+        let scale: CGFloat = self.scale * minMax(bounds.width, bounds.height)
+
+        path.apply(CGAffineTransform(
+            scaleX: scale / max(path.bounds.width, path.bounds.height),
+            y: scale / max(path.bounds.width, path.bounds.height)))
 
         // Only use this if we have the cards layed out on their side (wider than tall)
         // path.apply(CGAffineTransform(rotationAngle: -CGFloat.pi / 2))
 
         // Now move the object to the center of the bounds rectangle
-        let widthPadding = (bounds.width - path.bounds.width) / 2
-        let heightPadding = (bounds.height - path.bounds.height) / 2
-        path.apply(CGAffineTransform(translationX: bounds.minX + -path.bounds.minX + widthPadding,
-                                     y: bounds.minY + -path.bounds.minY + heightPadding))
+        let leadingPadding = (bounds.width - path.bounds.width) / 2
+        let topPadding = (bounds.height - path.bounds.height) * topPaddingScale
+        path.apply(CGAffineTransform(
+            translationX: bounds.minX + -path.bounds.minX + leadingPadding,
+            y: bounds.minY + -path.bounds.minY + topPadding))
+
+        return path
     }
 
-    func getOval(_ bounds: CGRect) -> UIBezierPath {
-        let width: CGFloat = 1000
+    /**
+     Make a generic Oval shape(path) in a rectangle
+
+     - Returns: UIBezierPath with an oval scaled to the current frame.
+     */
+    func getOval() -> UIBezierPath {
+        let width: CGFloat = 100
         let height = width * ratio
+        // Need to replace the empty path we started with to get a rounded rectangle
         let path = UIBezierPath(
-            roundedRect: CGRect(x: 0,
-                                y: 0,
-                                width: width,
-                                height: height),
+            roundedRect: CGRect(
+                x: 0,
+                y: 0,
+                width: width,
+                height: height),
             cornerRadius: height)
-        return path
+
+        return scaleAndPlace(path)
     }
 
-    func getDiamond(_ bounds: CGRect) -> UIBezierPath {
-        let width: CGFloat = 1000
+    /**
+     Make a diamond within a rectangle
+
+     - Returns: UIBezierPath with a diamond scaled to the current frame.
+     */
+    func getDiamond() -> UIBezierPath {
+        let width: CGFloat = 100
         let height = width * ratio
-        let path = UIBezierPath()
+        let xCenter = width / 2
+        let yCenter = height / 2
 
-        path.move(to: CGPoint(x: -width / 2 + lineWidth, y: 0))
-        path.addLine(to: CGPoint(x: 0, y: -height / 2 + lineWidth))
-        path.addLine(to: CGPoint(x: width / 2 - lineWidth, y: 0))
-        path.addLine(to: CGPoint(x: 0, y: height / 2 - lineWidth))
-
+        path.move(to: CGPoint(x: -xCenter + lineWidth, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: -yCenter + lineWidth))
+        path.addLine(to: CGPoint(x: xCenter - lineWidth, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: yCenter - lineWidth))
         path.close()
-        return path
+
+        return scaleAndPlace(path)
     }
 
-    func getSquiggle(_ bounds: CGRect) -> UIBezierPath {
-        // Based on: https://stackoverflow.com/questions/25387940/how-to-draw-a-perfect-squiggle-in-set-card-game-with-objective-c
+    /**
+     Make a squiggle
+
+     - Returns: UIBezierPath with a squiggle scaled to the current frame.
+
+    - Note: Based on [How to draw a perfect squiggle in set card game with objective-c?](
+     https://stackoverflow.com/questions/25387940/how-to-draw-a-perfect-squiggle-in-set-card-game-with-objective-c)
+     */
+    func getSquiggle() -> UIBezierPath {
         let startPoint = CGPoint(x: 76.5, y: 403.5)
-        let curves = [ // to, cp1, cp2
-            (CGPoint(x:  199.5, y: 295.5), CGPoint(x: 92.463, y: 380.439),
-             CGPoint(x: 130.171, y: 327.357)),
-            (CGPoint(x:  815.5, y: 351.5), CGPoint(x: 418.604, y: 194.822),
-             CGPoint(x: 631.633, y: 454.052)),
-            (CGPoint(x: 1010.5, y: 248.5), CGPoint(x: 844.515, y: 313.007),
-             CGPoint(x: 937.865, y: 229.987)),
-            (CGPoint(x: 1057.5, y: 276.5), CGPoint(x: 1035.564, y: 254.888),
-             CGPoint(x: 1051.46, y: 270.444)),
-            (CGPoint(x:  993.5, y: 665.5), CGPoint(x: 1134.423, y: 353.627),
-             CGPoint(x: 1105.444, y: 556.041)),
-            (CGPoint(x:  860.5, y: 742.5), CGPoint(x: 983.56, y: 675.219),
-             CGPoint(x: 941.404, y: 715.067)),
-            (CGPoint(x:  271.5, y: 728.5), CGPoint(x: 608.267, y: 828.077),
-             CGPoint(x: 452.192, y: 632.571)),
-            (CGPoint(x:  101.5, y: 803.5), CGPoint(x: 207.927, y: 762.251),
-             CGPoint(x: 156.106, y: 824.214)),
-            (CGPoint(x:   49.5, y: 745.5), CGPoint(x: 95.664, y: 801.286),
-             CGPoint(x: 73.211, y: 791.836)),
-            (startPoint, CGPoint(x: 1.465, y: 651.628),
-             CGPoint(x: 1.928, y: 511.233)),
+        let curves = [
+            // (to,
+            //  Control Point 1, Control Point 2)
+            // Top half
+            (CGPoint(x: 199.5, y: 295.5),
+             CGPoint(x: 92.463, y: 380.439), CGPoint(x: 130.171, y: 327.357)),
+
+            (CGPoint(x: 815.5, y: 351.5),
+             CGPoint(x: 418.604, y: 194.822), CGPoint(x: 631.633, y: 454.052)),
+
+            (CGPoint(x: 1010.5, y: 248.5),
+             CGPoint(x: 844.515, y: 313.007), CGPoint(x: 937.865, y: 229.987)),
+
+            (CGPoint(x: 1057.5, y: 276.5),
+             CGPoint(x: 1035.564, y: 254.888), CGPoint(x: 1051.46, y: 270.444)),
+
+            // Bottom half
+            (CGPoint(x: 993.5, y: 665.5),
+             CGPoint(x: 1134.423, y: 353.627), CGPoint(x: 1105.444, y: 556.041)),
+
+            (CGPoint(x: 860.5, y: 742.5),
+             CGPoint(x: 983.56, y: 675.219), CGPoint(x: 941.404, y: 715.067)),
+
+            (CGPoint(x: 271.5, y: 728.5),
+             CGPoint(x: 608.267, y: 828.077), CGPoint(x: 452.192, y: 632.571)),
+
+            (CGPoint(x: 101.5, y: 803.5),
+             CGPoint(x: 207.927, y: 762.251), CGPoint(x: 156.106, y: 824.214)),
+
+            (CGPoint(x: 49.5, y: 745.5),
+             CGPoint(x: 95.664, y: 801.286), CGPoint(x: 73.211, y: 791.836)),
+
+            (startPoint,
+             CGPoint(x: 1.465, y: 651.628), CGPoint(x: 1.928, y: 511.233)),
         ]
 
         // Draw the squiggle
-        let path = UIBezierPath()
         path.move(to: startPoint)
         for (to, cp1, cp2) in curves {
             path.addCurve(to: to, controlPoint1: cp1, controlPoint2: cp2)
         }
-        path.close()
+        path.close()  // This should be a no-op
 
-        // Shrink the squiggle by 10% to make it look more balanced with the diamond and oval
-        path.apply(CGAffineTransform(scaleX: 0.9 / max(path.bounds.width, path.bounds.height),
-                                     y: 0.9 / max(path.bounds.width, path.bounds.height)))
-        return path
+        return scaleAndPlace(path)
     }
 }

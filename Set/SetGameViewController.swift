@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SetGameController: UIViewController {
+class SetGameViewController: UIViewController {
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var winLabel: UILabel!
     @IBOutlet weak var dealButton: UIButton!

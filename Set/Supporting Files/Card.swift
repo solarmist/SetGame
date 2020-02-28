@@ -25,7 +25,4 @@ struct Card: Equatable, CustomStringConvertible {
     static func == (lhs: Card, rhs: Card) -> Bool {
         lhs.shape == rhs.shape && lhs.shading == rhs.shading && lhs.color == rhs.color && lhs.numShapes == rhs.numShapes
     }
-
-
-
 }

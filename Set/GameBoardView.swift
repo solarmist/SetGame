@@ -20,6 +20,8 @@ class GameBoardView: UIView {
     // An empty implementation adversely affects performance during animation.
     override func layoutSubviews() {
         super.layoutSubviews()  // Runs autolayout stuff
+        print("Relaying out \(cards.count) on the board")
+
         layoutCards()
     }
 
@@ -31,6 +33,7 @@ class GameBoardView: UIView {
             self.cards.append(cardView)
             addSubview(cardView)
         }
+        layoutCards()
     }
 
     public func newGame(cards: [Card]) {
@@ -43,6 +46,10 @@ class GameBoardView: UIView {
         setNeedsLayout()
     }
 
+    /**
+     Use the `grid` to determine the size and layout of the cards on the board.
+     This function changes the `card.bounds` and `card.frame` and sets needs layout on each card.
+     */
     private func layoutCards() {
         grid.aspectRatio = 1 / GameBoardView.cardAspect
         print("Set game board aspect: (\(grid.aspectRatio))")
@@ -50,7 +57,7 @@ class GameBoardView: UIView {
         grid.cellCount = cards.count
         for (i, card) in cards.enumerated() {
             let cardLayout = grid[i] ?? CGRect()
-            print("Button \(i)'s new bound: \(cardLayout)")
+            print("Card \(i)'s new bound: \(cardLayout)")
 
             card.bounds = cardLayout
             card.frame.origin = cardLayout.origin
