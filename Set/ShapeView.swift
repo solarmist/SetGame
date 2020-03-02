@@ -13,9 +13,9 @@ class ShapeView: UIView {
     // Variables for UI
     // Scale to 0.85 the largest without clipping by the edge of the card.
     // This looks cramped on the cards with 3 ovals though, so I'm using 0.75 which looks alright to me.
-    private let scale: CGFloat = 0.75
-    private let ratio: CGFloat = 0.5  // of width:height
-    private let lineWidth: CGFloat = 1.5  // 1.5x thicker than standard thickness, used for striping and shape drawing
+    let scale: CGFloat = 0.75
+    let ratio: CGFloat = 0.5  // of width:height
+    let lineWidth: CGFloat = 1.5  // 1.5x thicker than standard thickness, used for striping and shape drawing
     private let color: UIColor
     private let topPaddingScale: CGFloat
     private let useShorter: Bool  // See notes in init

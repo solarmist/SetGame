@@ -58,11 +58,12 @@ func getShading(from: Card) -> String {
 }
 
 class CardView: UIView {
-    public let card: Card
-    public var isCardSelected: Bool {
-        get {layer.borderColor == UIColor.blue.cgColor}
-        set {layer.borderColor = newValue ? UIColor.blue.cgColor : UIColor.clear.cgColor}
-    }
+    public let card: Card  // This is only used for looking up the card in the gameBoard since it is copied by value into the card
+    static let selectedColor = UIColor.blue.cgColor
+    public var gridIndex = 0
+    public var isCardSelected: Bool = false
+
+    // Computed/Read-only
     public var color: UIColor {return getColor(from: card)}
     public var shape: String {return getShape(from: card)}
     public var shading: String {return getShading(from: card)}
@@ -72,6 +73,7 @@ class CardView: UIView {
         }
     }
 
+    private var lineWidth: CGFloat = 1.5
     private var initialCenter = CGPoint()  // The initial center point of the view.
     private var shapes = [ShapeView]()
 
@@ -88,7 +90,20 @@ class CardView: UIView {
         }
     }
 
-    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented"); }
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    // Needed for https://www.hackingwithswift.com/example-code/language/how-to-fix-argument-of-selector-refers-to-instance-method-that-is-not-exposed-to-objective-c
+    @objc func pan(recognizer: UIPanGestureRecognizer) {
+        print("Start pan")
+        switch recognizer.state {
+            case .changed: fallthrough
+            case .ended:
+                let translation = recognizer.translation(in: superview)
+                print("x: \(translation.x), y: \(translation.y)")
+                recognizer.setTranslation(CGPoint.zero, in: superview)
+            default: break
+        }
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()  // Runs autolayout stuff
@@ -107,7 +122,6 @@ class CardView: UIView {
 
         // Place the shapes.
         for shape in shapes {
-            print("Laying out \(self)")
             shape.frame.origin = shapeFrame.origin
             shape.bounds = shapeFrame
             shape.setNeedsLayout()
@@ -132,9 +146,14 @@ class CardView: UIView {
                 width: rect.width,
                 height: rect.height),
             cornerRadius: cornerRadius)
-        cardBackground.lineWidth = 1.5
-        UIColor.black.setStroke()
         UIColor.white.setFill()
+        UIColor.white.setStroke()
+        cardBackground.fill()
+        cardBackground.stroke()  // Clear any thick lines
+
+        cardBackground.lineWidth = isCardSelected ? 3.0 : 1.5
+        UIColor(cgColor: isCardSelected ? CardView.selectedColor : UIColor.black.cgColor).setStroke()
+
         cardBackground.fill()
         cardBackground.stroke()
 

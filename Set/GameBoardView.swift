@@ -11,38 +11,40 @@ import UIKit
 @IBDesignable
 class GameBoardView: UIView {
     static let cardAspect: CGFloat = 89/64
-    static let startingCards = 12
-    static let cardsPerDraw = 3
-    public var cards = [CardView]()
+    public var cardViews: [Card: CardView] = [:]
+
     private lazy var grid = Grid(layout: Grid.Layout.aspectRatio(GameBoardView.cardAspect), frame: bounds)  // Setup a dummy Grid to start with
 
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func layoutSubviews() {
         super.layoutSubviews()  // Runs autolayout stuff
-        print("Relaying out \(cards.count) on the board")
-
         layoutCards()
     }
 
-    public func addCards(_ cards: [Card]) {
-        grid.cellCount += cards.count
-        print("Adding \(cards.count) to the board")
-        for card in cards {
-            let cardView = CardView(card)
-            self.cards.append(cardView)
-            addSubview(cardView)
+    /**
+     Register cards in the view and add the `tapGestureRecognizer` to it and place it on the board.
+     */
+    public func registerCard(card: Card, tapGestureRecognizer: UITapGestureRecognizer) {
+        guard cardViews[card] == nil else {
+            return
         }
-        layoutCards()
+        let newCardView = CardView(card)
+        newCardView.gridIndex = grid.cellCount
+        newCardView.addGestureRecognizer(tapGestureRecognizer)
+
+        grid.cellCount += 1
+        addSubview(newCardView)
+        print("Registered card: \(card) at index \(newCardView.gridIndex)")
+        cardViews[card] = newCardView
     }
 
-    public func newGame(cards: [Card]) {
+    public func newGame() {
         isOpaque = false
         backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
 
-        self.cards = [CardView]()
-        grid.cellCount = GameBoardView.startingCards
-        addCards(cards)
+        cardViews = [:]
+        grid.cellCount = 0
         setNeedsLayout()
     }
 
@@ -54,14 +56,13 @@ class GameBoardView: UIView {
         grid.aspectRatio = 1 / GameBoardView.cardAspect
         print("Set game board aspect: (\(grid.aspectRatio))")
         grid.frame = bounds
-        grid.cellCount = cards.count
-        for (i, card) in cards.enumerated() {
-            let cardLayout = grid[i] ?? CGRect()
-            print("Card \(i)'s new bound: \(cardLayout)")
+        for (_, cardView) in cardViews {
+            let cardLayout = grid[cardView.gridIndex] ?? CGRect()
+            print("Card \(cardView.gridIndex)'s new bound: \(cardLayout)")
 
-            card.bounds = cardLayout
-            card.frame.origin = cardLayout.origin
-            card.setNeedsLayout()
+            cardView.bounds = cardLayout
+            cardView.frame.origin = cardLayout.origin
+            cardView.setNeedsLayout()
         }
     }
 
