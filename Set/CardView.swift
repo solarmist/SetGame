@@ -57,6 +57,7 @@ func getShading(from: Card) -> String {
     }
 }
 
+
 class CardView: UIView {
     public let card: Card  // This is only used for looking up the card in the gameBoard since it is copied by value into the card
     static let selectedColor = UIColor.blue.cgColor
@@ -112,22 +113,27 @@ class CardView: UIView {
 
         // For 1 shape (even above and below)
         // For 2 shapes (3 spaces, even at top, bottom and middle)
-        var shapeFrame = CGRect(origin: frame.origin, size: frame.size)
+        var shapeFrame = CGRect(origin: bounds.origin, size: bounds.size)
 
-        if frame.width > frame.height {
+        if bounds.width > bounds.height {
             shapeFrame.size.width = shapeFrame.width / CGFloat(card.numShapes)
         } else {
             shapeFrame.size.height = shapeFrame.height / CGFloat(card.numShapes)
         }
 
         // Place the shapes.
-        for shape in shapes {
-            shape.frame.origin = shapeFrame.origin
+        for (num, shape) in shapes.enumerated() {
+            if (num == 0) {
+//                print("Card \(gridIndex) shape \(num)'s new bounds: \(shapeFrame)")
+            }
+
             shape.bounds = shapeFrame
+            shape.frame.origin = shapeFrame.origin
+            shape.bounds.origin = shapeFrame.origin
             shape.setNeedsLayout()
 
-            // Move the frame
-            if frame.width > frame.height {
+            // Move the frame for the next shape
+            if bounds.width > bounds.height {
                 shapeFrame.origin.x += shapeFrame.width - 1  // -1 to avoid a border effect
             } else {
                 shapeFrame.origin.y += shapeFrame.height

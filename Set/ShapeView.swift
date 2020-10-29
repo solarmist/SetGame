@@ -124,21 +124,19 @@ class ShapeView: UIView {
     @discardableResult func scaleAndPlace(_ path: UIBezierPath) -> UIBezierPath {
         let minMax: (CGFloat, CGFloat) -> CGFloat = useShorter ? min : max
         let scale: CGFloat = self.scale * minMax(bounds.width, bounds.height)
-
-        path.apply(CGAffineTransform(
-            scaleX: scale / max(path.bounds.width, path.bounds.height),
-            y: scale / max(path.bounds.width, path.bounds.height)))
-
-        // Only use this if we have the cards layed out on their side (wider than tall)
-        // path.apply(CGAffineTransform(rotationAngle: -CGFloat.pi / 2))
-
-        // Now move the object to the center of the bounds rectangle
         let leadingPadding = (bounds.width - path.bounds.width) / 2
         let topPadding = (bounds.height - path.bounds.height) * topPaddingScale
-        path.apply(CGAffineTransform(
-            translationX: bounds.minX + -path.bounds.minX + leadingPadding,
-            y: bounds.minY + -path.bounds.minY + topPadding))
 
+        let transform = CGAffineTransform(
+            scaleX: scale / max(path.bounds.width, path.bounds.height),
+            y: scale / max(path.bounds.width, path.bounds.height)
+        ).translatedBy(
+            x: bounds.minX - path.bounds.minX + leadingPadding,
+            y: bounds.minY - path.bounds.minY + topPadding)
+        // Only use this if we have the cards layed out on their side (wider than tall)
+        // transform.rotated(by: -CGFloat.pi / 2))
+
+        path.apply(transform)
         return path
     }
 

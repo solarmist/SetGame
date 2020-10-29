@@ -57,11 +57,12 @@ class GameBoardView: UIView {
         print("Set game board aspect: (\(grid.aspectRatio))")
         grid.frame = bounds
         for (_, cardView) in cardViews {
+//            print("Card \(cardView.gridIndex)'s new bounds: \(cardLayout)")
             let cardLayout = grid[cardView.gridIndex] ?? CGRect()
-            print("Card \(cardView.gridIndex)'s new bound: \(cardLayout)")
 
             cardView.bounds = cardLayout
             cardView.frame.origin = cardLayout.origin
+            cardView.bounds.origin = cardLayout.origin
             cardView.setNeedsLayout()
         }
     }
