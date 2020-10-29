@@ -1,0 +1,2 @@
+* When rotating the shapes seem very slightly off (leading vs trailing whitespace).
+* The spacing of shapes should divide the white space evenly, not double between shapes and single on the outsides
