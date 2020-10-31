@@ -60,9 +60,15 @@ func getShading(from: Card) -> String {
 
 class CardView: UIView {
     public let card: Card  // This is only used for looking up the card in the gameBoard since it is copied by value into the card
-    static let selectedColor = UIColor.blue.cgColor
+    public var borderColor = UIColor.black
     public var gridIndex = 0
-    public var isCardSelected: Bool = false
+    public var isCardSelected: Bool = false {
+        didSet {
+            print("Changed isCardSelected for Card \(gridIndex) to \(isCardSelected)")
+            borderColor = (isCardSelected) ? UIColor.blue: UIColor.black
+            setNeedsDisplay()
+        }
+    }
 
     // Computed/Read-only
     public var color: UIColor {return getColor(from: card)}
@@ -131,10 +137,12 @@ class CardView: UIView {
             shape.frame.origin = shapeFrame.origin
             shape.bounds.origin = shapeFrame.origin
             shape.setNeedsLayout()
+            // The stripes need redraw on layout changes
+            shape.setNeedsDisplay()
 
             // Move the frame for the next shape
             if bounds.width > bounds.height {
-                shapeFrame.origin.x += shapeFrame.width - 1  // -1 to avoid a border effect
+                shapeFrame.origin.x += shapeFrame.width
             } else {
                 shapeFrame.origin.y += shapeFrame.height
             }
@@ -147,22 +155,21 @@ class CardView: UIView {
     override func draw(_ rect: CGRect) {
         let cardBackground = UIBezierPath(
             roundedRect: CGRect(
-                x: rect.minX,
-                y: rect.minY,
-                width: rect.width,
-                height: rect.height),
+                x: rect.minX + 1,
+                y: rect.minY + 1,
+                width: rect.width - 2,
+                height: rect.height - 2 ),
             cornerRadius: cornerRadius)
-        UIColor.white.setFill()
-        UIColor.white.setStroke()
-        cardBackground.fill()
-        cardBackground.stroke()  // Clear any thick lines
 
         cardBackground.lineWidth = isCardSelected ? 3.0 : 1.5
-        UIColor(cgColor: isCardSelected ? CardView.selectedColor : UIColor.black.cgColor).setStroke()
+
+        UIColor.white.setFill()
+        borderColor.setStroke()
 
         cardBackground.fill()
         cardBackground.stroke()
 
+        cardBackground.lineWidth = 1.5
         for shape in shapes {
             shape.setNeedsDisplay()
         }

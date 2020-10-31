@@ -17,6 +17,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PFB-fR-wvv" customClass="GameBoardView" customModule="Set" customModuleProvider="target">
+                                <rect key="frame" x="20" y="20" width="335" height="572"/>
+                                <color key="backgroundColor" systemColor="systemIndigoColor"/>
+                            </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You Win" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yws-AK-XMI">
                                 <rect key="frame" x="100.5" y="303.5" width="174.5" height="60"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
@@ -24,10 +28,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PFB-fR-wvv" customClass="GameBoardView" customModule="Set" customModuleProvider="target">
-                                <rect key="frame" x="20" y="20" width="335" height="572"/>
-                                <color key="backgroundColor" systemColor="systemIndigoColor"/>
-                            </view>
                             <button opaque="NO" contentMode="left" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mvC-1r-6HJ">
                                 <rect key="frame" x="20" y="602" width="66" height="45"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor"/>

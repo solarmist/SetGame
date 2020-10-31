@@ -12,6 +12,16 @@ let cardsInSet = 3
 
 class SetGame {
     var cardsInPlay = [Card]()
+    var deckEmpty: Bool {
+        get {
+            return deck.count == 0
+        }
+    }
+    var lastMatch: [Card]? {
+        get {
+            return (cardsMatched.count >= cardsInSet) ? cardsMatched.suffix(cardsInSet) : nil
+        }
+    }
     private var deck: [Card] = {
         var tempDeck = [Card]()
         for shape in 0..<itemsInCategory {
@@ -82,7 +92,7 @@ class SetGame {
     }
 
 
-    func selectCard(_ card: Card) -> Bool {
+    @discardableResult func selectCard(_ card: Card) -> Bool {
         guard let cardIndex = cardsInPlay.firstIndex(of: card) else { return false }
         return selectCard(at: cardIndex)
     }
@@ -95,7 +105,7 @@ class SetGame {
 
      - Returns: true if a card was sucessfully selected, false otherwise
     */
-    func selectCard(at index: Int) -> Bool {
+    @discardableResult func selectCard(at index: Int) -> Bool {
         var selectedCardWasRemoved = false
         // Clean up previous hand
         if cardsSelected.count == cardsInSet {
@@ -110,7 +120,8 @@ class SetGame {
             }
             cardsSelected = [Card]()  // Clear current hand
         }
-        guard index < cardsInPlay.count || gameOver || selectedCardWasRemoved else {
+
+        guard index < cardsInPlay.count || !gameOver || !selectedCardWasRemoved else {
             if gameOver {
                 print("You win")
                 score += 100
@@ -120,12 +131,13 @@ class SetGame {
 
         // We know we have a card in play that we want to do something with
         cardsInPlay[index].selected = !cardsInPlay[index].selected
-        var card = cardsInPlay[index]
+        let card = cardsInPlay[index]
 
         if let indexInHand = cardsSelected.firstIndex(of: card) {
+            print("Card \(index) was un-selected: \(!card.selected)")
             cardsSelected.remove(at: indexInHand)
         } else {
-            print("Card was selected: \(card.selected)")
+            print("Card \(index) was selected: \(card.selected)")
             cardsSelected.append(card)
         }
         // If the card was in a previous hand we don't care about .selected anymore so this is safe.
@@ -137,7 +149,7 @@ class SetGame {
             score -= 1
             print("No match")
         }
-        return card.selected
+        return true
     }
 
 
@@ -146,17 +158,24 @@ class SetGame {
      */
     private func processMatch() {
         var newCards = drawCards(min(cardsInSet, deck.count))
+
+        // Remove the matched cards from play
         for card in cardsSelected {
             let index = cardsInPlay.firstIndex(of: card)!
-            print("Index of card: \(index)")
-            if let newCard = newCards.popLast() {
-                print("Replace card in play")
-                cardsInPlay[index] = newCard
-            } else {
-                print("Remove card from play")
-                cardsInPlay.remove(at: index)
+            print("Remove card from play")
+            cardsInPlay[index].selected = false
+            cardsInPlay.remove(at: index)
+
+            if newCards.count > 0, let newCard = cardsInPlay.popLast() {
+                // Discard the last item from newCards as well since it's the same.
+                print("Replaced card \(card) in play with \(newCards.popLast()!))")
+                cardsInPlay.insert(newCard, at: index)
+
             }
             cardsMatched.append(card)
+        }
+        for (i, _) in cardsInPlay.enumerated() {
+            cardsInPlay[i].selected = false
         }
     }
     /**

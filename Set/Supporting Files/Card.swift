@@ -13,7 +13,7 @@ let itemsInCategory = 3
 struct Card: Equatable, CustomStringConvertible, Hashable {
     var description: String {
         get {
-            "Shape: \(shape), Shading: \(shading), Color: \(color), numShapes: \(numShapes)"
+            "{Shape: \(shape), Shading: \(shading), Color: \(color), numShapes: \(numShapes)}"
         }
     }
 

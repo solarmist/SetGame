@@ -13,7 +13,7 @@ class GameBoardView: UIView {
     static let cardAspect: CGFloat = 89/64
     public var cardViews: [Card: CardView] = [:]
 
-    private lazy var grid = Grid(layout: Grid.Layout.aspectRatio(GameBoardView.cardAspect), frame: bounds)  // Setup a dummy Grid to start with
+    private lazy var grid = Grid(layout: Grid.Layout.aspectRatio(GameBoardView.cardAspect), frame: frame)  // Setup a dummy Grid to start with
 
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -36,6 +36,26 @@ class GameBoardView: UIView {
         grid.cellCount += 1
         addSubview(newCardView)
         print("Registered card: \(card) at index \(newCardView.gridIndex)")
+        cardViews[card] = newCardView
+    }
+
+    /**
+     Replace cards in the view with a new card and add the `tapGestureRecognizer` to it and place it on the board.
+     */
+    public func replaceCard(view: CardView, card: Card, tapGestureRecognizer: UITapGestureRecognizer) {
+        guard cardViews[view.card] != nil else {
+            return
+        }
+        view.removeFromSuperview()
+
+        cardViews.removeValue(forKey: view.card)
+
+        let newCardView = CardView(card)
+        newCardView.gridIndex = view.gridIndex
+        newCardView.addGestureRecognizer(tapGestureRecognizer)
+
+        addSubview(newCardView)
+        print("Replaced card: \(card) at index \(newCardView.gridIndex)")
         cardViews[card] = newCardView
     }
 
