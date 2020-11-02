@@ -93,6 +93,10 @@ class SetGame {
 
 
     @discardableResult func selectCard(_ card: Card) -> Bool {
+        if isFullHand {
+            processHand()
+        }
+
         guard let cardIndex = cardsInPlay.firstIndex(of: card) else { return false }
         return selectCard(at: cardIndex)
     }
@@ -106,22 +110,8 @@ class SetGame {
      - Returns: true if a card was sucessfully selected, false otherwise
     */
     @discardableResult func selectCard(at index: Int) -> Bool {
-        var selectedCardWasRemoved = false
-        // Clean up previous hand
-        if cardsSelected.count == cardsInSet {
-            if isMatch {
-                // If the user had a match and then selected a card in their old hand assume it was a mistake
-                selectedCardWasRemoved = cardsSelected.firstIndex(of: cardsInPlay[index]) != nil
-                processMatch()
-            } else {
-                for handIndex in 0..<cardsSelected.count  {
-                    cardsSelected[handIndex].selected = false
-                }
-            }
-            cardsSelected = [Card]()  // Clear current hand
-        }
 
-        guard index < cardsInPlay.count || !gameOver || !selectedCardWasRemoved else {
+        guard index < cardsInPlay.count || !gameOver  else {
             if gameOver {
                 print("You win")
                 score += 100
@@ -134,10 +124,8 @@ class SetGame {
         let card = cardsInPlay[index]
 
         if let indexInHand = cardsSelected.firstIndex(of: card) {
-            print("Card \(index) was un-selected: \(!card.selected)")
             cardsSelected.remove(at: indexInHand)
         } else {
-            print("Card \(index) was selected: \(card.selected)")
             cardsSelected.append(card)
         }
         // If the card was in a previous hand we don't care about .selected anymore so this is safe.
@@ -156,27 +144,28 @@ class SetGame {
     /**
      Handles updating the deck after a match.  Cards are moved from `SetGame.cardsInPlay` to `SetGame.cardsMatched`
      */
-    private func processMatch() {
-        var newCards = drawCards(min(cardsInSet, deck.count))
-
-        // Remove the matched cards from play
-        for card in cardsSelected {
-            let index = cardsInPlay.firstIndex(of: card)!
-            print("Remove card from play")
-            cardsInPlay[index].selected = false
-            cardsInPlay.remove(at: index)
-
-            if newCards.count > 0, let newCard = cardsInPlay.popLast() {
-                // Discard the last item from newCards as well since it's the same.
-                print("Replaced card \(card) in play with \(newCards.popLast()!))")
-                cardsInPlay.insert(newCard, at: index)
-
-            }
-            cardsMatched.append(card)
-        }
+    private func processHand() {
+        let drewCards: Bool
         for (i, _) in cardsInPlay.enumerated() {
             cardsInPlay[i].selected = false
         }
+
+        // Remove the matched cards from play
+        if isMatch {
+            drewCards = drawCards(min(cardsInSet, deck.count)).count > 0
+
+            for card in cardsSelected {
+                let index = cardsInPlay.firstIndex(of: card)!
+                cardsMatched.append(card)
+                cardsInPlay.remove(at: index)
+                if drewCards, let newCard = cardsInPlay.popLast() {
+                    // New cards were added at the end of the array
+                    print("Replaced card \(card) in play with \(newCard)")
+                    cardsInPlay.insert(newCard, at: index)
+                }
+            }
+        }
+        cardsSelected = [Card]()  // Clear current hand
     }
     /**
      Check if that the cards selected are a match across all categories
@@ -191,10 +180,8 @@ class SetGame {
                                                      ("Shading", {$0.shading}),
                                                      ("Color", {$0.color}),
                                                      ("Number of shapes", {$0.numShapes})]
-        for (catName, category) in categories {
-            let catMatch = isMatchCategory(for:category)
-            print("\(catName) is a match: \(catMatch)")
-            isMatch = isMatch && catMatch
+        for (_, category) in categories {
+            isMatch = isMatch && isMatchCategory(for:category)
         }
         return isMatch
     }

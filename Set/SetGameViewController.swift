@@ -6,13 +6,13 @@
 //  Copyright © 2019 solarmist. All rights reserved.
 //
 
-// TODO: A match should remove the cards from the board
 // TODO: Card selection isn't working correctly.
+// TODO: New game doesn't clear screen correctly (after winning only?)
 // TODO: Full hand highlighting is not working
 // TODO: Swipe to shuffle isn't implemented
 // TODO: Draw to re-order isn't working
-// TODO: touchCard should have methods that keep track of the states
-
+// TODO: Required: Swipe down should Deal 3 cards
+// TODO: Required: Rotation gesture should reshuffle cards
 
 import UIKit
 
@@ -48,9 +48,8 @@ class SetGameViewController: UIViewController {
         guard gestureRecognizer.view != nil && gestureRecognizer.state == .ended else { return }
 
         let cardView = gestureRecognizer.view as! CardView
-        let card = cardView.card
 
-        guard game.selectCard(card) else {
+        guard game.selectCard(cardView.card) else {
             print("No card was selected. Game over or a match was made.")
             if game.gameOver {
                 winLabel.isHidden = false
@@ -70,20 +69,15 @@ class SetGameViewController: UIViewController {
                 for card in game.cardsInPlay where (gameBoard.cardViews[card] == nil) {
                     replaceCard(view: removedCards.popLast()!, card: card)
                 }
-                if removedCards.count > 0 {
-                    removedCards.forEach({
-                        $0.removeFromSuperview()
-                        gameBoard.cardViews.removeValue(forKey: $0.card)
-                    })
-                }
+                // When removing cards also remove gaps in the cards
+                removedCards.forEach({gameBoard.removeCard(view: $0)})
             }
         }
+
         for card in game.cardsInPlay where gameBoard.cardViews[card]?.isCardSelected != card.selected {
-            if gameBoard.cardViews[card] == nil {
-                print("Card \(card) has doesn't exist.")
-            }
             print("Updated card \(gameBoard.cardViews[card]!.gridIndex)")
             gameBoard.cardViews[card]?.isCardSelected = card.selected
+            gameBoard.cardViews[card]?.setNeedsDisplay()
         }
         updateViewFromModel()
     }

@@ -62,6 +62,9 @@ class CardView: UIView {
     public let card: Card  // This is only used for looking up the card in the gameBoard since it is copied by value into the card
     public var borderColor = UIColor.black
     public var gridIndex = 0
+    public var isLandscape: Bool {
+        get { bounds.width > bounds.height }
+    }
     public var isCardSelected: Bool = false {
         didSet {
             print("Changed isCardSelected for Card \(gridIndex) to \(isCardSelected)")
@@ -121,31 +124,27 @@ class CardView: UIView {
         // For 2 shapes (3 spaces, even at top, bottom and middle)
         var shapeFrame = CGRect(origin: bounds.origin, size: bounds.size)
 
-        if bounds.width > bounds.height {
-            shapeFrame.size.width = shapeFrame.width / CGFloat(card.numShapes)
+        let xOffset: CGFloat
+        let yOffset: CGFloat
+
+        if isLandscape {
+            xOffset = shapeFrame.width / CGFloat(card.numShapes)
+            yOffset = 0
+            shapeFrame.size.width = xOffset
         } else {
-            shapeFrame.size.height = shapeFrame.height / CGFloat(card.numShapes)
+            xOffset = 0
+            yOffset = shapeFrame.height / CGFloat(card.numShapes)
+            shapeFrame.size.height = yOffset
         }
 
         // Place the shapes.
-        for (num, shape) in shapes.enumerated() {
-            if (num == 0) {
-//                print("Card \(gridIndex) shape \(num)'s new bounds: \(shapeFrame)")
-            }
-
-            shape.bounds = shapeFrame
-            shape.frame.origin = shapeFrame.origin
-            shape.bounds.origin = shapeFrame.origin
-            shape.setNeedsLayout()
+        for shape in shapes {
+            shape.frame = shapeFrame
             // The stripes need redraw on layout changes
             shape.setNeedsDisplay()
-
             // Move the frame for the next shape
-            if bounds.width > bounds.height {
-                shapeFrame.origin.x += shapeFrame.width
-            } else {
-                shapeFrame.origin.y += shapeFrame.height
-            }
+            shapeFrame.origin.x += xOffset
+            shapeFrame.origin.y += yOffset
         }
     }
 
@@ -155,24 +154,18 @@ class CardView: UIView {
     override func draw(_ rect: CGRect) {
         let cardBackground = UIBezierPath(
             roundedRect: CGRect(
-                x: rect.minX + 1,
-                y: rect.minY + 1,
-                width: rect.width - 2,
-                height: rect.height - 2 ),
+                x: bounds.minX + 1,
+                y: bounds.minY + 1,
+                width: bounds.width - 2,
+                height: bounds.height - 2 ),
             cornerRadius: cornerRadius)
-
-        cardBackground.lineWidth = isCardSelected ? 3.0 : 1.5
 
         UIColor.white.setFill()
         borderColor.setStroke()
+        cardBackground.lineWidth = isCardSelected ? 3.0 : 1.5
 
         cardBackground.fill()
         cardBackground.stroke()
-
-        cardBackground.lineWidth = 1.5
-        for shape in shapes {
-            shape.setNeedsDisplay()
-        }
     }
 }
 

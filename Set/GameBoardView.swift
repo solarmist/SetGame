@@ -40,6 +40,18 @@ class GameBoardView: UIView {
     }
 
     /**
+     Remove cards in the view with a new card and add the `tapGestureRecognizer` to it and place it on the board.
+     */
+    public func removeCard(view: CardView) {
+        view.removeFromSuperview()
+        cardViews.removeValue(forKey: view.card)
+        grid.cellCount -= 1
+        for (i, (card, view)) in cardViews.enumerated() {
+            print("Card \(card) is at index \(i)")
+            view.gridIndex = i
+        }
+    }
+    /**
      Replace cards in the view with a new card and add the `tapGestureRecognizer` to it and place it on the board.
      */
     public func replaceCard(view: CardView, card: Card, tapGestureRecognizer: UITapGestureRecognizer) {
@@ -65,6 +77,8 @@ class GameBoardView: UIView {
 
         cardViews = [:]
         grid.cellCount = 0
+        grid.aspectRatio = 1 / GameBoardView.cardAspect
+        print("Set game board aspect: (\(grid.aspectRatio))")
         setNeedsLayout()
     }
 
@@ -73,16 +87,10 @@ class GameBoardView: UIView {
      This function changes the `card.bounds` and `card.frame` and sets needs layout on each card.
      */
     private func layoutCards() {
-        grid.aspectRatio = 1 / GameBoardView.cardAspect
-        print("Set game board aspect: (\(grid.aspectRatio))")
         grid.frame = bounds
         for (_, cardView) in cardViews {
-//            print("Card \(cardView.gridIndex)'s new bounds: \(cardLayout)")
             let cardLayout = grid[cardView.gridIndex] ?? CGRect()
-
-            cardView.bounds = cardLayout
-            cardView.frame.origin = cardLayout.origin
-            cardView.bounds.origin = cardLayout.origin
+            cardView.frame = cardLayout
             cardView.setNeedsLayout()
         }
     }

@@ -124,19 +124,23 @@ class ShapeView: UIView {
     @discardableResult func scaleAndPlace(_ path: UIBezierPath) -> UIBezierPath {
         let minMax: (CGFloat, CGFloat) -> CGFloat = useShorter ? min : max
         let scale: CGFloat = self.scale * minMax(bounds.width, bounds.height)
-        let leadingPadding = (bounds.width - path.bounds.width) / 2
-        let topPadding = (bounds.height - path.bounds.height) * topPaddingScale
 
-        let transform = CGAffineTransform(
+        let scalePath = CGAffineTransform(
             scaleX: scale / max(path.bounds.width, path.bounds.height),
             y: scale / max(path.bounds.width, path.bounds.height)
-        ).translatedBy(
-            x: bounds.minX - path.bounds.minX + leadingPadding,
-            y: bounds.minY - path.bounds.minY + topPadding)
-        // Only use this if we have the cards layed out on their side (wider than tall)
-        // transform.rotated(by: -CGFloat.pi / 2))
+        )
+        path.apply(scalePath)
 
-        path.apply(transform)
+        // Calculate padding after resizing our shape
+        let leadingPadding = (bounds.width - path.bounds.width) / 2
+        let topPadding = (bounds.height - path.bounds.height) * self.topPaddingScale
+
+        let translate = CGAffineTransform(
+            translationX: -path.bounds.minX + leadingPadding,
+            y: -path.bounds.minY + topPadding
+        )
+        path.apply(translate)
+
         return path
     }
 
@@ -157,7 +161,7 @@ class ShapeView: UIView {
                 height: height),
             cornerRadius: height)
 
-        return scaleAndPlace(path)
+        return path
     }
 
     /**
@@ -176,8 +180,15 @@ class ShapeView: UIView {
         path.addLine(to: CGPoint(x: xCenter - lineWidth, y: 0))
         path.addLine(to: CGPoint(x: 0, y: yCenter - lineWidth))
         path.close()
-
-        return scaleAndPlace(path)
+        let reSize = CGAffineTransform(
+            scaleX: 100 / path.bounds.width ,
+            y: 50 / path.bounds.height
+        ).translatedBy(
+            x: -path.bounds.minX,
+            y: -path.bounds.minY
+        )
+        path.apply(reSize)
+        return path
     }
 
     /**
@@ -231,8 +242,18 @@ class ShapeView: UIView {
         for (to, cp1, cp2) in curves {
             path.addCurve(to: to, controlPoint1: cp1, controlPoint2: cp2)
         }
-        path.close()  // This should be a no-op
+        path.close()
 
-        return scaleAndPlace(path)
+        // Resize to 100 * 50 and move to origin
+        let reSize = CGAffineTransform(
+            scaleX: 100 / path.bounds.width ,
+            y: 50 / path.bounds.height
+        ).translatedBy(
+            x:  -path.bounds.minX,
+            y: -path.bounds.minY
+        )
+
+        path.apply(reSize)
+        return path
     }
 }
