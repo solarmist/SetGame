@@ -18,20 +18,31 @@ class SetGameViewController: UIViewController {
     @IBOutlet weak var winLabel: UILabel!
     @IBOutlet weak var dealButton: UIButton!
     @IBOutlet weak var newGameButton: UIButton!
-    @IBOutlet weak var gameBoard: GameBoardView! {
-        didSet {
-            for (_, cardView) in gameBoard.cardViews {
-                let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(CardView.pan(recognizer:)))
-                cardView.addGestureRecognizer(panGestureRecognizer)
-            }
-        }
-    }
+    @IBOutlet weak var gameBoard: GameBoardView!
 
     private lazy var game = SetGame()
 
     @IBAction func touchNewGame(_ sender: UIButton) {
         newGame()
         updateViewFromModel()
+    }
+
+    @objc func swipeDown(_ gesture: UISwipeGestureRecognizer) {
+        print("Swipe detected")
+        switch gesture.direction {
+        case .down:
+            dealCards()
+        default:
+            break
+        }
+    }
+
+    @objc func rotate(_ gesture: UIRotationGestureRecognizer) {
+        // Rotated at least 66 degrees
+        if abs(gesture.rotation) > CGFloat.pi / 3 {
+            gameBoard.shuffleCards()
+            gesture.rotation = 0
+        }
     }
 
     @objc func touchCard(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -80,6 +91,10 @@ class SetGameViewController: UIViewController {
     }
 
     @IBAction func touchDealCards(_ sender: UIButton) {
+        dealCards()
+    }
+
+    func dealCards(){
         if dealButton.isEnabled && game.deckEmpty {
             print("Disable deal button.")
             dealButton.backgroundColor = UIColor.gray
@@ -98,6 +113,15 @@ class SetGameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(SetGameViewController.swipeDown))
+        swipe.direction = .down
+        swipe.numberOfTouchesRequired = 1
+        self.view.addGestureRecognizer(swipe)
+
+        let rotate = UIRotationGestureRecognizer(target: self, action: #selector(SetGameViewController.rotate))
+        self.view.addGestureRecognizer(rotate)
+
         newGameButton.layer.cornerRadius = 8.0
         dealButton.layer.cornerRadius = 8.0
         newGame()
@@ -130,6 +154,12 @@ class SetGameViewController: UIViewController {
     private func newGame(){
         gameBoard.newGame()
         game = SetGame()
+
+        print("Enable deal button.")
+        dealButton.backgroundColor = UIColor.systemBlue
+        dealButton.setTitleColor(UIColor.white, for: .normal)
+        dealButton.isEnabled = true
+        dealButton.setNeedsDisplay()
 
         for card in game.cardsInPlay {
             print("Adding cardView \(gameBoard.cardViews.count)")

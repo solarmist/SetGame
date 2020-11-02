@@ -39,6 +39,15 @@ class GameBoardView: UIView {
         cardViews[card] = newCardView
     }
 
+    public func shuffleCards() {
+        for (i, (card, view)) in cardViews.shuffled().enumerated() {
+            print("Card \(card) is now at index \(i)")
+            view.gridIndex = i
+        }
+        self.setNeedsLayout()
+        self.setNeedsDisplay()
+    }
+
     /**
      Remove cards in the view with a new card and add the `tapGestureRecognizer` to it and place it on the board.
      */
