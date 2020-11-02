@@ -6,9 +6,6 @@
 //  Copyright © 2019 solarmist. All rights reserved.
 //
 
-// TODO: Card selection isn't working correctly.
-// TODO: New game doesn't clear screen correctly (after winning only?)
-// TODO: Full hand highlighting is not working
 // TODO: Swipe to shuffle isn't implemented
 // TODO: Draw to re-order isn't working
 // TODO: Required: Swipe down should Deal 3 cards

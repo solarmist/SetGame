@@ -75,6 +75,9 @@ class GameBoardView: UIView {
         isOpaque = false
         backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
 
+        // Clear any remaining cards from the view
+        cardViews.values.forEach({$0.removeFromSuperview()})
+
         cardViews = [:]
         grid.cellCount = 0
         grid.aspectRatio = 1 / GameBoardView.cardAspect
