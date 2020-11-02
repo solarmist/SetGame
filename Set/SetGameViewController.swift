@@ -6,11 +6,6 @@
 //  Copyright © 2019 solarmist. All rights reserved.
 //
 
-// TODO: Swipe to shuffle isn't implemented
-// TODO: Draw to re-order isn't working
-// TODO: Required: Swipe down should Deal 3 cards
-// TODO: Required: Rotation gesture should reshuffle cards
-
 import UIKit
 
 class SetGameViewController: UIViewController {
