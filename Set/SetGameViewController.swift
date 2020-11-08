@@ -128,7 +128,7 @@ class SetGameViewController: UIViewController {
 
      - Parameter card: the card to be registered
      */
-    private func setupNewCard(_ card: Card) {
+    private func setupNewCard(_ card: Card<SetCardFace>) {
         let tapGestureRecognizer = UITapGestureRecognizer(
             target: self, action: #selector(SetGameViewController.touchCard))
         tapGestureRecognizer.numberOfTouchesRequired = 1
@@ -136,7 +136,7 @@ class SetGameViewController: UIViewController {
 
         gameBoard.registerCard(card: card, tapGestureRecognizer: tapGestureRecognizer)
     }
-    private func replaceCard(view: CardView, card: Card) {
+    private func replaceCard(view: CardView, card: Card<SetCardFace>) {
         let tapGestureRecognizer = UITapGestureRecognizer(
             target: self, action: #selector(SetGameViewController.touchCard))
         tapGestureRecognizer.numberOfTouchesRequired = 1
@@ -155,6 +155,12 @@ class SetGameViewController: UIViewController {
         dealButton.setTitleColor(UIColor.white, for: .normal)
         dealButton.isEnabled = true
         dealButton.setNeedsDisplay()
+
+        // TODO: This isn't set yet on load.
+        gameBoard.deckLocation = CGPoint(
+            x: dealButton.frame.origin.x,
+            y: dealButton.frame.origin.y)
+        print("The deck location is: \(gameBoard.deckLocation)")
 
         for card in game.cardsInPlay {
             print("Adding cardView \(gameBoard.cardViews.count)")

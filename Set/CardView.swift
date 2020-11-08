@@ -8,58 +8,20 @@
 
 import UIKit
 
-func getColor(from: Card) -> UIColor {
-    switch from.color {
-        case 0:
-            return #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
-        case 1:
-            return #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)
-        default:
-            return #colorLiteral(red: 0.3236978054, green: 0.1063579395, blue: 0.574860394, alpha: 1)
+
+func getColor(from: Card<SetCardFace>) -> UIColor {
+    switch from.faceValue.color {
+    case .red:
+        return #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+    case .green:
+        return #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)
+    default:
+        return #colorLiteral(red: 0.3236978054, green: 0.1063579395, blue: 0.574860394, alpha: 1)
     }
 }
-
-func getColor(from: Card) -> String {
-    switch from.color {
-        case 0:
-            return "red"
-        case 1:
-            return "green"
-        default:
-            return "purple"
-    }
-}
-
-func getShape(from: Card) -> String {
-    var shape: String = ""
-    switch from.shape {
-        case 0:
-            shape += "squiggle"
-        case 1:
-            shape += "oval"
-        default:
-            shape += "diamond"
-    }
-    if from.numShapes > 1 {
-        shape += "s"
-    }
-    return shape
-}
-
-func getShading(from: Card) -> String {
-    switch from.shading {
-        case 0:
-            return "empty"
-        case 1:
-            return "stripping"
-        default:
-            return "fill"
-    }
-}
-
 
 class CardView: UIView {
-    public let card: Card  // This is only used for looking up the card in the gameBoard since it is copied by value into the card
+    public let card: Card<SetCardFace>  // This is only used for looking up the card in the gameBoard since it is copied by value into the card
     public var borderColor = UIColor.black
     public var gridIndex = 0
     public var isLandscape: Bool {
@@ -75,25 +37,21 @@ class CardView: UIView {
 
     // Computed/Read-only
     public var color: UIColor {return getColor(from: card)}
-    public var shape: String {return getShape(from: card)}
-    public var shading: String {return getShading(from: card)}
-    override public var description: String {
-        get {
-            "Shape: \(getShape(from: card)), Shading: \(getShading(from: card)), Color: \(getColor(from: card)), numShapes: \(card.numShapes)"
-        }
-    }
+    public var shape: String {return card.faceValue.shape.rawValue}
+    public var shading: String {return card.faceValue.shading.rawValue}
+    override public var description: String {card.description}
 
     private var lineWidth: CGFloat = 1.5
     private var initialCenter = CGPoint()  // The initial center point of the view.
     private var shapes = [ShapeView]()
 
-    init(_ card: Card) {
+    init(_ card: Card<SetCardFace>) {
         self.card = card
-        super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        super.init(frame: CGRect(x: 0, y: 0, width: 79, height: 110))
         isOpaque = false
         backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
 
-        for shapeNum in 1...card.numShapes {
+        for shapeNum in 1...card.faceValue.numShapes {
             let shape = ShapeView(card: card, frame: bounds, topEdge: shapeNum == 1)
             shapes.append(shape)
             addSubview(shape)
@@ -128,12 +86,12 @@ class CardView: UIView {
         let yOffset: CGFloat
 
         if isLandscape {
-            xOffset = shapeFrame.width / CGFloat(card.numShapes)
+            xOffset = shapeFrame.width / CGFloat(card.faceValue.numShapes)
             yOffset = 0
             shapeFrame.size.width = xOffset
         } else {
             xOffset = 0
-            yOffset = shapeFrame.height / CGFloat(card.numShapes)
+            yOffset = shapeFrame.height / CGFloat(card.faceValue.numShapes)
             shapeFrame.size.height = yOffset
         }
 

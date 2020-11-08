@@ -11,9 +11,13 @@ import UIKit
 @IBDesignable
 class GameBoardView: UIView {
     static let cardAspect: CGFloat = 89/64
-    public var cardViews: [Card: CardView] = [:]
-
-    private lazy var grid = Grid(layout: Grid.Layout.aspectRatio(GameBoardView.cardAspect), frame: frame)  // Setup a dummy Grid to start with
+    public var cardViews: [Card<SetCardFace>: CardView] = [:]
+    public var deckLocation = CGPoint(x: 0, y: 0)
+    public var discardLocation = CGPoint(x: 0, y: 0)
+    private lazy var grid : Grid = {
+        var newGrid = Grid(layout: Grid.Layout.aspectRatio(GameBoardView.cardAspect), frame: frame)  // Setup a dummy Grid to start with
+        return newGrid
+    }()
 
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -25,7 +29,7 @@ class GameBoardView: UIView {
     /**
      Register cards in the view and add the `tapGestureRecognizer` to it and place it on the board.
      */
-    public func registerCard(card: Card, tapGestureRecognizer: UITapGestureRecognizer) {
+    public func registerCard(card: Card<SetCardFace>, tapGestureRecognizer: UITapGestureRecognizer) {
         guard cardViews[card] == nil else {
             return
         }
@@ -34,6 +38,7 @@ class GameBoardView: UIView {
         newCardView.addGestureRecognizer(tapGestureRecognizer)
 
         grid.cellCount += 1
+        newCardView.frame.origin = deckLocation
         addSubview(newCardView)
         print("Registered card: \(card) at index \(newCardView.gridIndex)")
         cardViews[card] = newCardView
@@ -63,7 +68,7 @@ class GameBoardView: UIView {
     /**
      Replace cards in the view with a new card and add the `tapGestureRecognizer` to it and place it on the board.
      */
-    public func replaceCard(view: CardView, card: Card, tapGestureRecognizer: UITapGestureRecognizer) {
+    public func replaceCard(view: CardView, card: Card<SetCardFace>, tapGestureRecognizer: UITapGestureRecognizer) {
         guard cardViews[view.card] != nil else {
             return
         }
@@ -102,7 +107,14 @@ class GameBoardView: UIView {
         grid.frame = bounds
         for (_, cardView) in cardViews {
             let cardLayout = grid[cardView.gridIndex] ?? CGRect()
-            cardView.frame = cardLayout
+
+            UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 3.0,
+                delay: 0.0,
+                options: [.allowUserInteraction],
+                animations: {cardView.frame = cardLayout},
+                completion: {_ in })
+
             cardView.setNeedsLayout()
         }
     }

@@ -30,7 +30,7 @@ class ShapeView: UIView {
         - topEdge: Does this shape share the top edge with the edge of the card
         - bottomEdge: Does this shape share the bottom edge with the edge of the card
      */
-    init(card: Card, frame: CGRect, topEdge: Bool = true) {
+    init(card: Card<SetCardFace>, frame: CGRect, topEdge: Bool = true) {
         // Set these as dummy values for Phase 1
         path = UIBezierPath()
         fill = {}
@@ -38,12 +38,12 @@ class ShapeView: UIView {
         // This is used for single shapes because we're given the entire card to use.
         // In this case the natural orientation would be to place the longest axis of
         // the shape on the longest axis of the frame which wouldn't match any of the other cards.
-        useShorter = card.numShapes == 1 ? true : false
+        useShorter = card.faceValue.numShapes == 1 ? true : false
 
         // The padding of a shape on a card will one of (top, bottom):
         // (1/2, 1/2) single shape or (1/3, 1/3) internal shape
         // (2/3, 1/3) top shape or (1/3, 2/3) bottom shape
-        if card.numShapes == 1 {
+        if card.faceValue.numShapes == 1 {
             topPaddingScale = 1 / 2
         } else {
             topPaddingScale = topEdge ? 2/3 : 1/3
@@ -55,18 +55,18 @@ class ShapeView: UIView {
         isOpaque = true
         backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) // Set this to clear so we can see the card frame from the CardView
 
-        switch card.shape {
-            case 0: path = getSquiggle()
-            case 1: path = getOval()
-            default: path = getDiamond()
+        switch card.faceValue.shape {
+        case .squiggle: path = getSquiggle()
+        case .oval: path = getOval()
+        default: path = getDiamond()
         }
         path.lineWidth = lineWidth
 
         // The background inside the shape
-        switch card.shading {
-            case 0: fill = {self.color.setFill(); self.path.fill()}
-            case 1: fill = drawStripes
-            default: fill = {}  // Do nothing
+        switch card.faceValue.shading {
+        case .fill: fill = {self.color.setFill(); self.path.fill()}
+        case .stripping: fill = drawStripes
+        default: fill = {}  // Do nothing
         }
     }
 

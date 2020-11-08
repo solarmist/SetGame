@@ -11,34 +11,34 @@ import Foundation
 let cardsInSet = 3
 
 class SetGame {
-    var cardsInPlay = [Card]()
+    var cardsInPlay = [Card<SetCardFace>]()
     var deckEmpty: Bool {
         get {
             return deck.count == 0
         }
     }
-    var lastMatch: [Card]? {
+    var lastMatch: [Card<SetCardFace>]? {
         get {
             return (cardsMatched.count >= cardsInSet) ? cardsMatched.suffix(cardsInSet) : nil
         }
     }
-    private var deck: [Card] = {
-        var tempDeck = [Card]()
-        for shape in 0..<itemsInCategory {
-            for color in 0..<itemsInCategory {
-                for shading in 0..<itemsInCategory {
+    private var deck: [Card<SetCardFace>] = {
+        var tempDeck = [Card<SetCardFace>]()
+        for shape in SetCardFace.Shape.allCases {
+            for color in SetCardFace.Color.allCases {
+                for shading in SetCardFace.Shading.allCases {
                     for numShapes in 1...itemsInCategory {
-                        tempDeck.append(Card(shape: shape, shading: shading, color: color, numShapes: numShapes))
+                        tempDeck.append(Card<SetCardFace>(faceValue: SetCardFace(shading: shading, color: color, shape: shape, numShapes: numShapes)))
                     }
                 }
             }
         }
         return tempDeck
     }()
-    private var cardsMatched = [Card]()
+    private var cardsMatched = [Card<SetCardFace>]()
     let totalCards = 3 * 3 * 3 * 3 // num shapes * num colors * num shadings * num symbols on card
     var cardsDrawn = 12
-    var cardsSelected = [Card]() // Should be 0, 1, 2, or 3
+    var cardsSelected = [Card<SetCardFace>]() // Should be 0, 1, 2, or 3
     var score = 0
     var gameOver: Bool {deck.count == 0 && cardsInPlay.count == 0}
     var isFullHand: Bool {cardsSelected.count == cardsInSet}
@@ -57,7 +57,7 @@ class SetGame {
 
      - Returns: A card.  nil if no cards remaining
     */
-    @discardableResult private func drawCard() -> Card? {
+    @discardableResult private func drawCard() -> Card<SetCardFace>? {
         guard deck.count >= 1 else {
             print("No cards remaining")
             return nil
@@ -77,13 +77,13 @@ class SetGame {
 
      - Returns: An array of cards drawn.  If there aren't enough cards returns nil
     */
-    @discardableResult func drawCards(_ numCards: Int = cardsInSet) -> [Card] {
+    @discardableResult func drawCards(_ numCards: Int = cardsInSet) -> [Card<SetCardFace>] {
         guard numCards <= deck.count, numCards != 0 else {
             print("Too few cards remaining. Cannot draw \(numCards) out of \(deck.count)")
             return []
         }
 
-        var cards = [Card]()
+        var cards = [Card<SetCardFace>]()
         cardsDrawn += numCards
         for _ in 1...numCards {
             cards.append(drawCard()!)
@@ -92,7 +92,7 @@ class SetGame {
     }
 
 
-    @discardableResult func selectCard(_ card: Card) -> Bool {
+    @discardableResult func selectCard(_ card: Card<SetCardFace>) -> Bool {
         if isFullHand {
             processHand()
         }
@@ -165,7 +165,7 @@ class SetGame {
                 }
             }
         }
-        cardsSelected = [Card]()  // Clear current hand
+        cardsSelected = [Card<SetCardFace>]()  // Clear current hand
     }
     /**
      Check if that the cards selected are a match across all categories
@@ -176,10 +176,11 @@ class SetGame {
         assert(cardsSelected.count == cardsInSet, "Wrong number of cards")
         var isMatch = true
         // The cards need to either be identical or completely different for each category
-        let categories: [(String, (Card) -> Int)] = [("Shape", {$0.shape}),
-                                                     ("Shading", {$0.shading}),
-                                                     ("Color", {$0.color}),
-                                                     ("Number of shapes", {$0.numShapes})]
+        let categories: [(String, (Card<SetCardFace>) -> String)] = [
+            ("Shape", {$0.faceValue.shape.rawValue}),
+            ("Shading", {$0.faceValue.shading.rawValue}),
+            ("Color", {$0.faceValue.color.rawValue}),
+            ("Number of shapes", {"\($0.faceValue.numShapes)"})]
         for (_, category) in categories {
             isMatch = isMatch && isMatchCategory(for:category)
         }
@@ -193,13 +194,13 @@ class SetGame {
 
      - Returns: True if we have a match for a single category
      */
-    private func isMatchCategory(for category: (Card) -> Int) -> Bool {
+    private func isMatchCategory(for category: (Card<SetCardFace>) -> String) -> Bool {
         guard cardsSelected.count == cardsInSet else {
             print("Wrong number of cards selected.")
             return false
         }
         let comparisonSet = Set(cardsSelected.map(category))
-        return comparisonSet.count == 3 || comparisonSet.count == 1
+        return comparisonSet.count == itemsInCategory || comparisonSet.count == 1
     }
 
 
