@@ -109,7 +109,7 @@ class GameBoardView: UIView {
             let cardLayout = grid[cardView.gridIndex] ?? CGRect()
 
             UIViewPropertyAnimator.runningPropertyAnimator(
-                withDuration: 3.0,
+                withDuration: 1.0,
                 delay: 0.0,
                 options: [.allowUserInteraction],
                 animations: {cardView.frame = cardLayout},

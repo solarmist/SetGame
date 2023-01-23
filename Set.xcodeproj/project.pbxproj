@@ -12,7 +12,6 @@
 		773C5AC52353CE41004C4C11 /* SetGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AC42353CE41004C4C11 /* SetGameViewController.swift */; };
 		773C5AC82353CE41004C4C11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 773C5AC62353CE41004C4C11 /* Main.storyboard */; };
 		773C5ACA2353CE43004C4C11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 773C5AC92353CE43004C4C11 /* Assets.xcassets */; };
-		773C5ACD2353CE43004C4C11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 773C5ACB2353CE43004C4C11 /* LaunchScreen.storyboard */; };
 		773C5AD82353F3F3004C4C11 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AD72353F3F3004C4C11 /* Card.swift */; };
 		773C5ADA2353FC20004C4C11 /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773C5AD92353FC20004C4C11 /* SetGame.swift */; };
 		7785593D237A48B600CF8D74 /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7785593C237A48B600CF8D74 /* GameBoardView.swift */; };
@@ -24,16 +23,15 @@
 /* Begin PBXFileReference section */
 		035AC71A3210F07909CA6B64 /* Pods-Set.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Set.release.xcconfig"; path = "Target Support Files/Pods-Set/Pods-Set.release.xcconfig"; sourceTree = "<group>"; };
 		35FF317BF95E6D8184D16D20 /* Pods-Set.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Set.debug.xcconfig"; path = "Target Support Files/Pods-Set/Pods-Set.debug.xcconfig"; sourceTree = "<group>"; };
+		7705BDD5297F073700D12023 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		7705BDD9297F0A3200D12023 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		773C5ABD2353CE41004C4C11 /* Set.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Set.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		773C5AC02353CE41004C4C11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		773C5AC22353CE41004C4C11 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		773C5AC42353CE41004C4C11 /* SetGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameViewController.swift; sourceTree = "<group>"; };
 		773C5AC72353CE41004C4C11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		773C5AC92353CE43004C4C11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		773C5ACC2353CE43004C4C11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		773C5ACE2353CE43004C4C11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		773C5AD42353CED4004C4C11 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
-		773C5AD52353CED4004C4C11 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		773C5AD72353F3F3004C4C11 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Card.swift; path = "Supporting Files/Card.swift"; sourceTree = "<group>"; };
 		773C5AD92353FC20004C4C11 /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
 		7785593C237A48B600CF8D74 /* GameBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
@@ -103,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				773C5AC02353CE41004C4C11 /* AppDelegate.swift */,
-				773C5ACB2353CE43004C4C11 /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -176,7 +173,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				773C5ACD2353CE43004C4C11 /* LaunchScreen.storyboard in Resources */,
 				773C5ACA2353CE43004C4C11 /* Assets.xcassets in Resources */,
 				773C5AC82353CE41004C4C11 /* Main.storyboard in Resources */,
 			);
@@ -233,18 +229,10 @@
 			isa = PBXVariantGroup;
 			children = (
 				773C5AC72353CE41004C4C11 /* Base */,
-				773C5AD42353CED4004C4C11 /* ja */,
+				7705BDD5297F073700D12023 /* en */,
+				7705BDD9297F0A3200D12023 /* ja */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		773C5ACB2353CE43004C4C11 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				773C5ACC2353CE43004C4C11 /* Base */,
-				773C5AD52353CED4004C4C11 /* ja */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -1,24 +1,24 @@
 
 /* Class = "UILabel"; accessibilityLabel = "You Win"; ObjectID = "Yws-AK-XMI"; */
-"Yws-AK-XMI.accessibilityLabel" = "勝つ";
+"Yws-AK-XMI.accessibilityLabel" = "You Win";
 
 /* Class = "UILabel"; text = "You Win"; ObjectID = "Yws-AK-XMI"; */
-"Yws-AK-XMI.text" = "勝つ";
+"Yws-AK-XMI.text" = "You Win";
 
 /* Class = "UILabel"; text = "999"; ObjectID = "bKj-kK-WLh"; */
 "bKj-kK-WLh.text" = "999";
 
 /* Class = "UIButton"; accessibilityLabel = "Deal"; ObjectID = "k8W-7W-ILB"; */
-"k8W-7W-ILB.accessibilityLabel" = "3枚のカードを配る";
+"k8W-7W-ILB.accessibilityLabel" = "Deal 3 cards";
 
 /* Class = "UIButton"; normalTitle = "Deal"; ObjectID = "k8W-7W-ILB"; */
-"k8W-7W-ILB.normalTitle" = "配る";
+"k8W-7W-ILB.normalTitle" = "Deal";
 
 /* Class = "UIButton"; accessibilityLabel = "New Game"; ObjectID = "mvC-1r-6HJ"; */
-"mvC-1r-6HJ.accessibilityLabel" = "新しいゲームを始める";
+"mvC-1r-6HJ.accessibilityLabel" = "Start a new game";
 
 /* Class = "UIButton"; normalTitle = "New Game"; ObjectID = "mvC-1r-6HJ"; */
-"mvC-1r-6HJ.normalTitle" = "ニューゲーム";
+"mvC-1r-6HJ.normalTitle" = "New Game";
 
 /* Class = "UILabel"; text = "Score:"; ObjectID = "vPf-Ud-eH5"; */
-"vPf-Ud-eH5.text" = "スコア:";
+"vPf-Ud-eH5.text" = "Score:";
